@@ -1,0 +1,11 @@
+.idea
+.idea/*
+*.iws
+/out/
+atlassian-ide-plugin.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+*.iml
+modules.xml
+*.ipr
