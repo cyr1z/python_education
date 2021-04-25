@@ -2,8 +2,7 @@ version: "3.9"
 
 services:
   time_woodpeker:
-    container_name: cyrzolotarev/time_wodpeker
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: cyrzolotarev/time_wodpeker
+    container_name: time_wodpeker
+    hostname: time_wodpeker
     restart: always
