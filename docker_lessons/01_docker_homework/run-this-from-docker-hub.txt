@@ -1,0 +1,5 @@
+docker run -it --pull always cyrzolotarev/time_wodpeker
+
+or
+
+docker-compose up
