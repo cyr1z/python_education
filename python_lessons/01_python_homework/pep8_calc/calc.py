@@ -52,7 +52,7 @@ class Calc:
                         numeric types
         :return: float
         """
-        dividend, divisor= self.cleaned_numbers(dividend, divisor)
+        dividend, divisor = self.cleaned_numbers(dividend, divisor)
         return dividend / divisor
 
     def subtraction(self, whole, particular) -> float:
@@ -69,7 +69,6 @@ class Calc:
 
 
 if __name__ == "__main__":
-
     calculator = Calc()
 
     print(calculator.multiplication(42, 3.14, '6.626'))
