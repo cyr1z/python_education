@@ -193,8 +193,8 @@ modules.xml
 [Ll]ocal
 [Ss]cripts
 pyvenv.cfg
-#.venv
-#.venv/*
+.venv
+.venv/*
 pip-selfcheck.json
 
 # End of https://www.toptal.com/developers/gitignore/api/venv,git,pycharm,jetbrains+all
