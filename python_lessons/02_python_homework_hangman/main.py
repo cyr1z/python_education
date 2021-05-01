@@ -4,7 +4,7 @@ main game module
 """
 
 from utils.settings import WORD_DICT_FILENAME, WORD_URL, \
-     INPUT_PHRASE, WIN_PHRASE, LOSE_PHRASE, WORD_PHRASE, WRONG_LETTERS_PHRASE
+    INPUT_PHRASE, WIN_PHRASE, LOSE_PHRASE, WORD_PHRASE, WRONG_LETTERS_PHRASE
 from utils.words import WordsDictionary
 from utils.game_word import GameWord
 from utils.ascii_pictures import PICTURES
@@ -29,12 +29,12 @@ if __name__ == "__main__":
             game_word.put_letter_to_wrong_list(letter)
 
         if game_word.is_word_mask_clean():
-            print(cli_color(game_word, 'g'))
+            print(cli_color(game_word.word_string, 'g'))
             print(WIN_PHRASE)
             break
 
         if len(game_word.wrong_letters) == len(PICTURES):
             print(cli_color(PICTURES[-1], 'r'))
-            print(game_word)
+            print(cli_color(game_word.word_string, 'y'))
             print(LOSE_PHRASE)
             break

@@ -14,7 +14,7 @@ def cli_color(string, color='g'):
     colors = {
         'c': '[034m',
         'b': '[035m',
-        'y': '[034m',
+        'y': '[033m',
         'g': '[032m',
         'r': '[031m',
         'w': '[0m',
