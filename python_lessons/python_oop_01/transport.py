@@ -1,4 +1,14 @@
+"""
+Transport classes
+"""
+
+
 class Engine:
+    """
+    Engine class
+
+    """
+
     def __init__(self, name, displacement, fuel_type, power):
         self.name = name
         self.fuel_type = fuel_type
@@ -11,6 +21,10 @@ class Engine:
 
 
 class Transport:
+    """
+    Base transport class
+    """
+
     def __init__(self, name, engine):
         self.name = name
         self.engine = engine
@@ -20,6 +34,10 @@ class Transport:
 
 
 class Cargo(Transport):
+    """
+    Cargo transport class
+    """
+
     def __init__(self, name, carrying, engine):
         super().__init__(name, engine)
         self.carrying = carrying
@@ -29,6 +47,10 @@ class Cargo(Transport):
 
 
 class Passenger(Transport):
+    """
+    Passenger transport class
+    """
+
     def __init__(self, name, engine, passengers):
         super().__init__(name, engine)
         self.passengers = passengers
@@ -38,6 +60,10 @@ class Passenger(Transport):
 
 
 class WaterMixin:
+    """
+    Mixin for water transport
+    """
+
     def __init__(self, draught):
         self.draught = draught
 
@@ -46,6 +72,9 @@ class WaterMixin:
 
 
 class RoadMixin:
+    """
+    Mixin for road transport
+    """
 
     def __init__(self, number_of_wheels):
         self.number_of_wheels = number_of_wheels
@@ -55,6 +84,10 @@ class RoadMixin:
 
 
 class Car(Passenger, RoadMixin):
+    """
+    passengers car
+    """
+
     def __init__(self, name, engine, passengers, number_of_wheels=4):
         super().__init__(name, engine, passengers)
         RoadMixin.__init__(self, number_of_wheels)
@@ -64,6 +97,10 @@ class Car(Passenger, RoadMixin):
 
 
 class Track(Cargo, RoadMixin):
+    """
+    Cargo track
+    """
+
     def __init__(self, name, engine, carrying, number_of_wheels=4):
         super().__init__(name, engine, carrying)
         RoadMixin.__init__(self, number_of_wheels)
@@ -73,6 +110,10 @@ class Track(Cargo, RoadMixin):
 
 
 class Boat(Passenger, WaterMixin):
+    """
+    passengers boat
+    """
+
     def __init__(self, name, engine, passengers, draught):
         super().__init__(name, engine, passengers)
         WaterMixin.__init__(self, draught)
@@ -82,6 +123,10 @@ class Boat(Passenger, WaterMixin):
 
 
 class Amphibian(Passenger, RoadMixin, WaterMixin):
+    """
+    Amphibian transport
+    """
+
     def __init__(self, name, engine, passengers, draught, number_of_wheels):
         super().__init__(name, engine, passengers)
         WaterMixin.__init__(self, draught)
@@ -89,7 +134,7 @@ class Amphibian(Passenger, RoadMixin, WaterMixin):
 
     def __str__(self):
         return super().__str__() + WaterMixin.__str__(self) + \
-            RoadMixin.__str__(self)
+               RoadMixin.__str__(self)
 
 
 if __name__ == "__main__":
