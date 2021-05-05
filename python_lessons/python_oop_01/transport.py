@@ -255,8 +255,6 @@ if __name__ == "__main__":
         number_of_wheels=4
     )
 
-
-
     print(yacht)
     print(strange_amphibian)
 
@@ -273,7 +271,3 @@ if __name__ == "__main__":
 
     man.loading(doors)
     print(man)
-
-
-
-
