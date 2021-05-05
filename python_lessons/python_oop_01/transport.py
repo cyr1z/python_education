@@ -1,6 +1,7 @@
 """
 Transport classes
 """
+from abc import ABC, abstractmethod
 
 
 class Engine:
@@ -20,7 +21,30 @@ class Engine:
                f"fuel: {self.fuel_type} / {self.power}hp "
 
 
-class Transport:
+class Goods:
+    def __init__(self, name, weight, count):
+        self._weight = weight
+        self._count = count
+        self.name = name
+
+    @property
+    def sum_weight(self):
+        return self._weight * self._count
+
+    def __str__(self):
+        return f"{self.name} / {self.sum_weight}kg "
+
+
+class Person:
+    def __init__(self, name, ticket_id):
+        self.ticket_id = ticket_id
+        self.name = name
+
+    def __str__(self):
+        return f"{self.name} / {self.ticket_id} "
+
+
+class Transport(ABC):
     """
     Base transport class
     """
@@ -28,6 +52,19 @@ class Transport:
     def __init__(self, name, engine):
         self.name = name
         self.engine = engine
+        self._load = []
+
+    @abstractmethod
+    def loading(self, something):
+        raise NotImplementedError("loading method not implemented!")
+
+    @abstractmethod
+    def unloading(self, something):
+        raise NotImplementedError("unloading method not implemented!")
+
+    @property
+    def on_board(self):
+        return '\n     '.join(str(p) for p in self._load)
 
     def __str__(self):
         return f"{self.name} / {self.engine} "
@@ -38,12 +75,27 @@ class Cargo(Transport):
     Cargo transport class
     """
 
-    def __init__(self, name, carrying, engine):
+    def __init__(self, name, engine, carrying):
         super().__init__(name, engine)
-        self.carrying = carrying
+        self._carrying = carrying
+
+    @property
+    def free_carry(self):
+        return float(self._carrying) - float(sum(w.sum_weight for w in
+                                                 self._load))
+
+    def loading(self, thing):
+        if isinstance(thing, Goods) and thing.sum_weight < self.free_carry:
+            self._load.append(thing)
+            print(f'{thing.name} LOADED')
+        else:
+            print('loading is not possible')
+
+    def unloading(self, thing):
+        self._load.pop(thing)
 
     def __str__(self):
-        return super().__str__() + f"T carrying / {self.carrying}"
+        return super().__str__() + f"/ {self.free_carry}T free "
 
 
 class Passenger(Transport):
@@ -51,12 +103,36 @@ class Passenger(Transport):
     Passenger transport class
     """
 
-    def __init__(self, name, engine, passengers):
+    def __init__(self, name, engine, passengers: int):
         super().__init__(name, engine)
-        self.passengers = passengers
+        self._passengers = passengers
+
+    @property
+    def free_seats(self):
+        """
+        free seats for passengers
+        :return: int
+        """
+        return self._passengers - len(self._load)
+
+    def loading(self, unit: Person):
+        """
+        load passengers
+        :param unit: Person
+        :return: list of loaded passengers
+        """
+        if isinstance(unit, Person) and self.free_seats:
+            self._load.append(unit)
+            print(f"WELCOME {unit.name}")
+        else:
+            print('loading is not possible')
+        return self._load
+
+    def unloading(self, unit):
+        self._load.pop(unit)
 
     def __str__(self):
-        return super().__str__() + f" / {self.passengers} passengers "
+        return super().__str__() + f" / {self.free_seats} free seats "
 
 
 class WaterMixin:
@@ -179,7 +255,25 @@ if __name__ == "__main__":
         number_of_wheels=4
     )
 
-    print(jeep)
-    print(man)
+
+
     print(yacht)
     print(strange_amphibian)
+
+    stanley = Person(name="Stanley", ticket_id="444333")
+    willy = Person(name="Willy", ticket_id="555666")
+    doors = Goods(name='50 doors', weight=0.05, count=50)
+    print(jeep)
+    jeep.loading(stanley)
+    print(jeep)
+    print(jeep.on_board)
+
+    print(man)
+    man.loading(willy)
+
+    man.loading(doors)
+    print(man)
+
+
+
+
