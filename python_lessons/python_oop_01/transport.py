@@ -22,20 +22,32 @@ class Engine:
 
 
 class Goods:
+    """
+    Cargo transported Goods
+    """
+
     def __init__(self, name, weight, count):
         self._weight = weight
         self._count = count
         self.name = name
 
     @property
-    def sum_weight(self):
-        return self._weight * self._count
+    def sum_weight(self) -> float:
+        """
+        summarize weight of goods
+        :return: float
+        """
+        return float(self._weight * self._count)
 
     def __str__(self):
         return f"{self.name} / {self.sum_weight}kg "
 
 
 class Person:
+    """
+    Passenger transport transported Persons
+    """
+
     def __init__(self, name, ticket_id):
         self.ticket_id = ticket_id
         self.name = name
@@ -56,14 +68,28 @@ class Transport(ABC):
 
     @abstractmethod
     def loading(self, something):
+        """
+        abstract method for loading something on board
+        :param something:
+        :return:
+        """
         raise NotImplementedError("loading method not implemented!")
 
     @abstractmethod
     def unloading(self, something):
+        """
+        abstract method for uloading something from board
+        :param something:
+        :return:
+        """
         raise NotImplementedError("unloading method not implemented!")
 
     @property
     def on_board(self):
+        """
+        print all items on board
+        :return: str
+        """
         return '\n     '.join(str(p) for p in self._load)
 
     def __str__(self):
@@ -79,20 +105,109 @@ class Cargo(Transport):
         super().__init__(name, engine)
         self._carrying = carrying
 
+    @staticmethod
+    def _weight_sum(list_ot_thins) -> float:
+        """
+        sums up the weight of items on board
+        :param list_ot_thins: list of items
+        :return: float
+        """
+        return float(sum(w.sum_weight for w in list_ot_thins))
+
     @property
-    def free_carry(self):
-        return float(self._carrying) - float(sum(w.sum_weight for w in
-                                                 self._load))
+    def free_carry(self) -> float:
+        """
+        calculates the weight available for loading
+        :return: float
+        """
+        return float(self._carrying) - self._weight_sum(self._load)
+
+    @staticmethod
+    def _check_thing_type(thing):
+        """
+        check type of loading thing
+        :param thing: Goods
+        """
+        if not isinstance(thing, Goods):
+            raise TypeError(
+                f"loading not supported for '{type(thing).__name__}'"
+            )
+
+    def _check_available_carry(self, thing):
+        """
+        check is available carry bigger then things weight
+        :param thing:
+        :return:
+        """
+        if thing.sum_weight > self.free_carry:
+            raise ValueError("Item weight too much")
 
     def loading(self, thing):
-        if isinstance(thing, Goods) and thing.sum_weight < self.free_carry:
-            self._load.append(thing)
-            print(f'{thing.name} LOADED')
-        else:
-            print('loading is not possible')
+        """
+        load things on board
+        :param thing: Goods
+        :return:
+        """
+        self._check_thing_type(thing)
+        self._check_available_carry(thing)
+        self._load.append(thing)
+        print(f'{thing.name} LOADED')
 
     def unloading(self, thing):
+        """
+        unload things from board
+        :param thing: Goods
+        :return:
+        """
         self._load.pop(thing)
+
+    def __gt__(self, other):
+        if isinstance(other, Goods):
+            result = self._carrying > other.sum_weight
+        elif isinstance(other, Cargo):
+            result = self._carrying > other._carrying
+        else:
+            raise TypeError(
+                f"'>' not supported between instances of "
+                f"'{type(other).__name__}' and '{type(self).__name__}'"
+            )
+        return result
+
+    def __lt__(self, other):
+        if isinstance(other, Goods):
+            result = self._carrying < other.sum_weight
+        elif isinstance(other, Cargo):
+            result = self._carrying < other._carrying
+        else:
+            raise TypeError(
+                f"'<' not supported between instances of "
+                f"'{type(other).__name__}' and '{type(self).__name__}'"
+            )
+        return result
+
+    def __ge__(self, other):
+        if isinstance(other, Goods):
+            result = self._carrying >= other.sum_weight
+        elif isinstance(other, Cargo):
+            result = self._carrying >= other._carrying
+        else:
+            raise TypeError(
+                f"'>=' not supported between instances of "
+                f"'{type(other).__name__}' and '{type(self).__name__}'"
+            )
+        return result
+
+    def __le__(self, other):
+        if isinstance(other, Goods):
+            result = self._carrying <= other.sum_weight
+        elif isinstance(other, Cargo):
+            result = self._carrying <= other._carrying
+        else:
+            raise TypeError(
+                f"'<=' not supported between instances of "
+                f"'{type(other).__name__}' and '{type(self).__name__}'"
+            )
+        return result
 
     def __str__(self):
         return super().__str__() + f"/ {self.free_carry}T free "
@@ -241,6 +356,13 @@ if __name__ == "__main__":
         number_of_wheels=6
     )
 
+    cat = Track(
+        name="Caterpillar",
+        engine=best_diesel_engine,
+        carrying=200,
+        number_of_wheels=4
+    )
+
     yacht = Boat(
         name='Beda',
         engine=best_diesel_engine,
@@ -267,7 +389,18 @@ if __name__ == "__main__":
     print(jeep.on_board)
 
     print(man)
-    man.loading(willy)
+    try:
+        man.loading(willy)
+    except TypeError as error:
+        print(error)
 
     man.loading(doors)
     print(man)
+
+    print(f'Is {cat.name} bigger than {man.name}? - Is', cat > man)
+    print(f'Is {doors.name} bigger than {man.name}? - Is', doors > man)
+
+    try:
+        print(best_diesel_engine > man)
+    except TypeError as error:
+        print(error)
