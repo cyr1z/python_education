@@ -287,6 +287,13 @@ class WaterMixin:
     Mixin for water transport
     """
 
+    @staticmethod
+    def roar() -> str:
+        """
+        seal says
+        """
+        return 'The only easy day was yesterday.'
+
     def __init__(self, draught):
         self.draught = draught
 
@@ -298,6 +305,14 @@ class RoadMixin:
     """
     Mixin for road transport
     """
+    @staticmethod
+    def roar() -> str:
+        """
+        motor-head says
+        :return: str
+        """
+        return 'Sometimes it Takes a Whole Tank of Fuel ' \
+               'Before You Can Think Straight'
 
     def __init__(self, number_of_wheels):
         self.number_of_wheels = number_of_wheels
