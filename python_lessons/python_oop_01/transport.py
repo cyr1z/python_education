@@ -10,6 +10,14 @@ class Engine:
 
     """
 
+    @staticmethod
+    def roar():
+        """
+        big sense of dr-dr-dr
+        :return: str
+        """
+        return 'Dr-Dr-Dr-Dr-Dr-Dr-Dr'
+
     def __init__(self, name, displacement, fuel_type, power):
         self.name = name
         self.fuel_type = fuel_type
@@ -52,6 +60,17 @@ class Person:
         self.ticket_id = ticket_id
         self.name = name
 
+    def roar(self) -> str:
+        """
+        Person says
+        :return: str
+        """
+        if self.ticket_id:
+            result = f"my ticket number is {self.ticket_id}"
+        else:
+            result = "I'm invisible rabbit!"
+        return result
+
     def __str__(self):
         return f"{self.name} / {self.ticket_id} "
 
@@ -78,7 +97,7 @@ class Transport(ABC):
     @abstractmethod
     def unloading(self, something):
         """
-        abstract method for uloading something from board
+        abstract method for unloading something from board
         :param something:
         :return:
         """
