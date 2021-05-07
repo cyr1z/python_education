@@ -222,6 +222,19 @@ class Passenger(Transport):
         super().__init__(name, engine)
         self._passengers = passengers
 
+    def _passenger_names(self):
+        return tuple(passenger.name for passenger in self._load)
+
+    def __contains__(self, person):
+        if isinstance(person, Person):
+            result = person in self._load
+        else:
+            raise TypeError(
+                f"'in' not supported between instances of "
+                f"'{type(person).__name__}' and '{type(self).__name__}'"
+            )
+        return result
+
     @property
     def free_seats(self):
         """
@@ -387,6 +400,13 @@ if __name__ == "__main__":
     jeep.loading(stanley)
     print(jeep)
     print(jeep.on_board)
+
+    try:
+        print("Stanley" in jeep)
+    except TypeError as error:
+        print(error)
+
+    print(stanley in jeep)
 
     print(man)
     try:
