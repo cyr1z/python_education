@@ -1,10 +1,4 @@
-************* Module transport
-transport.py:164:4: W0221: Parameters differ from overridden 'loading' method (arguments-differ)
-transport.py:175:4: W0221: Parameters differ from overridden 'unloading' method (arguments-differ)
-transport.py:265:4: W0221: Parameters differ from overridden 'loading' method (arguments-differ)
-transport.py:278:4: W0221: Parameters differ from overridden 'unloading' method (arguments-differ)
-transport.py:368:4: R0913: Too many arguments (6/5) (too-many-arguments)
 
-------------------------------------------------------------------
-Your code has been rated at 9.74/10 (previous run: 9.74/10, +0.00)
+--------------------------------------------------------------------
+Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 

@@ -86,19 +86,19 @@ class Transport(ABC):
         self._load = []
 
     @abstractmethod
-    def loading(self, something):
+    def loading(self, item):
         """
         abstract method for loading something on board
-        :param something:
+        :param item:
         :return:
         """
         raise NotImplementedError("loading method not implemented!")
 
     @abstractmethod
-    def unloading(self, something):
+    def unloading(self, item):
         """
         abstract method for unloading something from board
-        :param something:
+        :param item:
         :return:
         """
         raise NotImplementedError("unloading method not implemented!")
@@ -161,24 +161,24 @@ class Cargo(Transport):
         if thing.sum_weight > self.free_carry:
             raise ValueError("Item weight too much")
 
-    def loading(self, thing):
+    def loading(self, item):
         """
         load things on board
-        :param thing: Goods
+        :param item: Goods
         :return:
         """
-        self._check_thing_type(thing)
-        self._check_available_carry(thing)
-        self._load.append(thing)
-        print(f'{thing.name} LOADED')
+        self._check_thing_type(item)
+        self._check_available_carry(item)
+        self._load.append(item)
+        print(f'{item.name} LOADED')
 
-    def unloading(self, thing):
+    def unloading(self, item):
         """
         unload things from board
-        :param thing: Goods
+        :param item: Goods
         :return:
         """
-        self._load.pop(thing)
+        self._load.pop(item)
 
     def __gt__(self, other):
         if isinstance(other, Goods):
@@ -262,21 +262,21 @@ class Passenger(Transport):
         """
         return self._passengers - len(self._load)
 
-    def loading(self, unit: Person):
+    def loading(self, item):
         """
         load passengers
-        :param unit: Person
+        :param item: Person
         :return: list of loaded passengers
         """
-        if isinstance(unit, Person) and self.free_seats:
-            self._load.append(unit)
-            print(f"WELCOME {unit.name}")
+        if isinstance(item, Person) and self.free_seats:
+            self._load.append(item)
+            print(f"WELCOME {item.name}")
         else:
             print('loading is not possible')
         return self._load
 
-    def unloading(self, unit):
-        self._load.pop(unit)
+    def unloading(self, item):
+        self._load.pop(item)
 
     def __str__(self):
         return super().__str__() + f" / {self.free_seats} free seats "
