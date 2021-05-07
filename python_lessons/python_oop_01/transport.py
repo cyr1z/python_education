@@ -11,7 +11,7 @@ class Engine:
     """
 
     @staticmethod
-    def roar():
+    def roar() -> str:
         """
         big sense of dr-dr-dr
         :return: str
