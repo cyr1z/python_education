@@ -365,10 +365,20 @@ class Amphibian(Passenger, RoadMixin, WaterMixin):
     Amphibian transport
     """
 
-    def __init__(self, name, engine, passengers, draught, number_of_wheels):
-        super().__init__(name, engine, passengers)
-        WaterMixin.__init__(self, draught)
-        RoadMixin.__init__(self, number_of_wheels)
+    def __init__(self, **kwargs):
+        super().__init__(
+            kwargs['name'],
+            kwargs['engine'],
+            kwargs['passengers']
+        )
+        WaterMixin.__init__(
+            self,
+            kwargs['draught']
+        )
+        RoadMixin.__init__(
+            self,
+            kwargs['number_of_wheels']
+        )
 
     def __str__(self):
         return super().__str__() + WaterMixin.__str__(self) + \
