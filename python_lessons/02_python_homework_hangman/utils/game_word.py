@@ -92,10 +92,7 @@ class GameWord:
         check is word mask clean
         :return: boolean
         """
-        result = True
-        if MASK_SYMBOL in self.word_mask:
-            result = False
-        return result
+        return MASK_SYMBOL not in self.word_mask
 
     def __str__(self):
         return self.word_string
