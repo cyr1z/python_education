@@ -15,9 +15,7 @@ y = object()
 
 x_list = [x] * 10
 y_list = [y] * 10
-big_list = []
-big_list.extend(x_list)
-big_list.extend(y_list)
+big_list = x_list + y_list
 
 if __name__ == "__main__":
 
