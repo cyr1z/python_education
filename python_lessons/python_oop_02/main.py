@@ -7,7 +7,7 @@ from datetime import datetime as dt
 
 from prettytable import PrettyTable
 from settings import MAX_ORDER_ITEM_COUNT, COUNT_REQUEST, \
-    DEFAULT_TABLES_COUNT, WAITERS, MENU_FILE
+    DEFAULT_TABLES_COUNT, WAITERS, MENU_FILE, ORDER_STATUSES
 from utils import get_customer_name, get_digit, get_money
 from menu import Menu, Dish
 
@@ -155,7 +155,11 @@ class Waiter(Person):
         while True:
             order = self._get_choices(order)
             print('your order:')
-            print('\n'.join(str(_) for _ in order.items))
+            table = PrettyTable()
+            table.field_names = ['Order']
+            for item in order.items:
+                table.add_row([str(item)])
+            print(str(table))
 
             if get_digit(1, 'Enter 1 to confirm or 0 to cancel: '):
                 self._orders_dict[this_customer.table] = order
@@ -163,6 +167,7 @@ class Waiter(Person):
                 order.change_status()
                 break
             order.items.clear()
+        order.change_status()
         self._catering.get_order(order)
 
     def carry_order(self, order):
@@ -250,6 +255,7 @@ class Order:
         change order status
         :return:
         """
+        print(ORDER_STATUSES[self.status])
         self.status += 1
 
     def __str__(self):
@@ -333,7 +339,6 @@ class Catering:
         :param order: Order
         :return:
         """
-        print('Order dishes are ready')
         order.change_status()
         order.waiter.carry_order(order)
 
