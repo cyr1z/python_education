@@ -19,7 +19,7 @@ if __name__ == "__main__":
         print(cli_color(WORD_PHRASE.format(game_word.word_mask_string), 'w'))
         print(WRONG_LETTERS_PHRASE.format(game_word.wrong_letters_string))
 
-        letter = ''
+        letter = str()
         while len(letter) != 1 or not letter.isalpha():
             letter = input(INPUT_PHRASE)
 
