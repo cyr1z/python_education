@@ -4,7 +4,10 @@
 from abc import ABC, abstractmethod
 
 from .catering import Catering
+from random import choice
 from .order import Order
+from .settings import COUNT_REQUEST, MAX_ORDER_ITEM_COUNT
+from .utils import get_digit
 
 
 class Person(ABC):
@@ -62,25 +65,67 @@ class Customer(Person):
         self._bill -= money
         other_object.get_payment(money, self)
 
+    def get_payment(self, money: float, from_person):
+        print('Keep the change')
+
     def _release_table(self):
+        """
+        return table to free catering table list
+        :return:
+        """
         self._catering.tables.append(self.table)
+
+    def see_menu(self):
+        """
+        see the menu
+        :return:
+        """
+        print(self._catering.menu)
+
+    def call_water(self):
+        """
+        call waiter and start ordering
+        :return:
+        """
+        waiter = choice(self._catering.waiters_pool)
+        waiter.get_order(self)
 
 
 class Waiter(Person):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.in_progress = None
         self._orders_dict = dict()
 
+    def get_choices(self, order):
+        print('Hello, What would you like to eat?')
+        while True:
+            print(self._catering.menu)
+            print('enter "0" for end ordering')
+            dish_number = get_digit(len(self._catering.menu.items))
+            if not dish_number:
+                break
+            dish = self._catering.menu.items[dish_number]
+            quantity = get_digit(MAX_ORDER_ITEM_COUNT, COUNT_REQUEST)
+            if not quantity:
+                quantity = 1
+            order.add_dish(dish, quantity)
+        return order
 
-    @property
-    def is_free(self):
-        return not bool(self.in_progress)
+    def get_order(self, customer):
+        order = Order(waiter=self, customer=customer)
+        while True:
+            order = self.get_choices(order)
+            print('your order:')
+            print('/n'.join(str(_) for _ in order.items))
 
-    def get_order(self):
-        pass
+            if get_digit(1, 'Enter 1 to confirm or 0 to cancel'):
+                self._orders_dict[customer.table] = order
+                self._catering.get_order(order)
+                break
+            else:
+                order.items.clear()
 
-    def carry_order(self):
+    def carry_order(self, order):
         pass
 
     def _approve_payment(self):

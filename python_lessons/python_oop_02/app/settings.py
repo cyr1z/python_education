@@ -1,0 +1,10 @@
+"""
+SETTINGS
+"""
+DEFAULT_CUSTOMER_BILL = 1000
+DEFAULT_TABLES_COUNT = 10
+MENU_FILE = 'menu.yml'
+WAITERS = ['John', 'Den', 'Kate']
+NUMBER_REQUEST = 'Enter the number: '
+MAX_ORDER_ITEM_COUNT = 20
+COUNT_REQUEST = f'Enter count (from 1 to {MAX_ORDER_ITEM_COUNT}): '
