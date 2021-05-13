@@ -4,15 +4,19 @@ Main restrain module
 from abc import ABC
 from random import choice
 from datetime import datetime as dt
+import yaml
 
+from prettytable import PrettyTable
 from settings import MAX_ORDER_ITEM_COUNT, COUNT_REQUEST, \
     DEFAULT_TABLES_COUNT, WAITERS, MENU_FILE
 from utils import get_customer_name, get_digit, get_money
-import yaml
-from prettytable import PrettyTable
 
 
 class Dish:
+    """
+    dish for menu with name and price
+    """
+
     def __init__(self, name, price: float):
         self.name = name
         self.price = price
@@ -22,11 +26,20 @@ class Dish:
 
 
 class Menu:
+    """
+    Menu loaded from yaml menu file
+    """
+
     def __init__(self):
         self.items = dict()
 
-    def load_items(self, file):
-        with open(file) as file:
+    def load_items(self, file_name):
+        """
+        load menu from file
+        :param file_name: str
+        :return:
+        """
+        with open(file_name) as file:
             menu_dict = yaml.load(file, Loader=yaml.FullLoader).get('menu')
             for key, item in menu_dict.items():
                 self.items[key] = Dish(
@@ -66,6 +79,10 @@ class Person(ABC):
 
 
 class Customer(Person):
+    """
+    Class customer with pay, eat, and waiter speaking options.
+    """
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.table = self._catering.tables.pop()
@@ -127,6 +144,11 @@ class Customer(Person):
         print(order.waiter.give_bill(order))
 
     def get_dishes(self, order):
+        """
+        get dishes, check order with check list, eat and pay
+        :param order: Order
+        :return:
+        """
         if self._check_order(order):
             order.change_status()
             self._eat(order)
@@ -138,11 +160,20 @@ class Customer(Person):
 
 
 class Waiter(Person):
+    """
+    Waiter class
+    """
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self._orders_dict = dict()
 
     def _get_choices(self, order):
+        """
+        getting choices of dishes
+        :param order: Order
+        :return: Order
+        """
         print(f"Hello, I'm {self.name}. What would you like to eat?")
         while True:
             print(self._catering.menu)
@@ -158,6 +189,11 @@ class Waiter(Person):
         return order
 
     def get_order(self, this_customer):
+        """
+        Getting order
+        :param this_customer: Customer
+        :return:
+        """
         order = Order(waiter=self, customer=this_customer)
         while True:
             order = self._get_choices(order)
@@ -168,10 +204,8 @@ class Waiter(Person):
                 self._orders_dict[this_customer.table] = order
                 this_customer.set_check_list(order.items)
                 order.change_status()
-
                 break
-            else:
-                order.items.clear()
+            order.items.clear()
         self._catering.get_order(order)
 
     def carry_order(self, order):
@@ -185,7 +219,12 @@ class Waiter(Person):
         return money - order.total
 
     @staticmethod
-    def give_bill(order):
+    def give_bill(order) -> str:
+        """
+        Give bill from order
+        :param order: Order
+        :return: str
+        """
         result = f'Waiter: {order.waiter}  Date: {order.date}\n'
         table = PrettyTable()
         table.field_names = ['Name', 'Count', "Price"]
@@ -238,6 +277,7 @@ class Order:
         self.status = 0
 
     def add_dish(self, dish, quantity=1):
+        """ add dish to order """
         self.items.append(OrderItem(dish, quantity))
 
     @property
