@@ -1,0 +1,31 @@
+menu:
+  1:
+    name: pizza
+    price: 10
+  2:
+    name: soup
+    price: 5
+  3:
+    name: steak
+    price: 12
+  4:
+    name: pasta
+    price: 7
+  5:
+    name: fish
+    price: 9.6
+  6:
+    name: salad
+    price: 5
+  7:
+    name: wine
+    price: 12
+  8:
+    name: juice
+    price: 5
+  9:
+    name: mineral water
+    price: 5
+  10:
+    name: cola
+    price: 7
