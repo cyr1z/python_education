@@ -60,10 +60,7 @@ class GameWord:
         :return: bool
         """
         letter = self._clean_letter(letter)
-        result = True
-        if letter not in self.word:
-            result = False
-        return result
+        return letter in self.word
 
     def put_letter_to_mask(self, letter):
         """
