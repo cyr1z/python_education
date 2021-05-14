@@ -4,11 +4,12 @@ main game module
 """
 
 from utils.settings import WORD_DICT_FILENAME, WORD_URL, \
-    INPUT_PHRASE, WIN_PHRASE, LOSE_PHRASE, WORD_PHRASE, WRONG_LETTERS_PHRASE
+     WIN_PHRASE, LOSE_PHRASE, WORD_PHRASE, WRONG_LETTERS_PHRASE
 from utils.words import WordsDictionary
 from utils.game_word import GameWord
 from utils.ascii_pictures import PICTURES
 from utils.color import cli_color
+from utils.inputs import get_letter
 
 if __name__ == "__main__":
     words_dict = WordsDictionary(WORD_URL, WORD_DICT_FILENAME)
@@ -19,9 +20,7 @@ if __name__ == "__main__":
         print(cli_color(WORD_PHRASE.format(game_word.word_mask_string), 'w'))
         print(WRONG_LETTERS_PHRASE.format(game_word.wrong_letters_string))
 
-        letter = str()
-        while len(letter) != 1 or not letter.isalpha():
-            letter = input(INPUT_PHRASE)
+        letter = get_letter()
 
         if game_word.is_letter_in_word(letter):
             game_word.put_letter_to_mask(letter)
