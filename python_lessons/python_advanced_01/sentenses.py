@@ -61,6 +61,9 @@ SentenceIterator class:
 
 """
 from string import punctuation
+from re import finditer
+
+from settings import SENTENCE_END_SYMBOLS, SENTENCE
 
 
 class SentenceIterator:
@@ -72,44 +75,123 @@ class SentenceIterator:
       returns the words from the Sentence object that generates it
 
     """
-    pass
+
+    def __init__(self, words):
+        self._words = words
+        self.index = 0
+
+    def __next__(self):
+        if self.index >= len(self._words):
+            raise StopIteration
+        result = self._words[self.index]
+        self.index += 1
+        return result
+
+    @property
+    def words(self):
+        """
+        the words list
+        :return: list
+        """
+        return self.words
 
 
 class Sentence:
     """
     Sentence class
     """
-    def __init__(self, text: str):
-        pass
 
-    def __repr__(self):
-        return f"<Sentence(words={?}, other_chars={?})>"
+    def __init__(self, string: str):
+        if not isinstance(string, str):
+            raise TypeError
+        if not string.strip().endswith(SENTENCE_END_SYMBOLS):
+            raise ValueError
+        self.string = string
 
-    def __iter__(self):
-        return SentenceIterator(self.words)
-
-    def _words(self):
+    @staticmethod
+    def get_clear_string(string: str) -> str:
         """
-        method return a lazy iterator. The point here is that we do not
-        want to store a list of words in the object, because sentences can
-        be very large and take up a lot of memory, so we will generate
-        it as needed and give it to the user
-        :return:
+        filtering all punctuation chars
+        :param string: str
+        :return: str
         """
-        return < lazy iterator >
+        return ''.join(filter(lambda _: _ not in punctuation, string)).strip()
+
+    @staticmethod
+    def get_other_chars(string: str) -> str:
+        """
+        getting all punctuation chars
+        :param string: str
+        :return: str
+        """
+        return ''.join(filter(lambda _: _ in punctuation, string)).strip()
 
     @property
-    def words(self):
+    def clean_string(self) -> str:
         """
-        property that returns a list of all words in a sentence
-        :return: list
+        string without punctuation
+        :return: str
         """
-        return words in text
+        return self.get_clear_string(self.string)
 
     @property
     def other_chars(self):
         """
-        property that returns a list of all non-words in a sentence
+        string with only punctuation
+        :return:
+        """
+        return list(self.get_other_chars(self.string))
+
+    @property
+    def other_chars_count(self) -> int:
+        """
+        Count of punctuation chars
+        :return: int
+        """
+        return len(self.other_chars)
+
+    def _words(self):
+        """
+        Words generator.
+        :return:
+        """
+        for item in finditer(r'\w+', self.clean_string):
+            yield item.group(0)
+
+    @property
+    def words(self):
+        """
+        list of words
         :return: list
         """
-        return not words
+        return list(self._words())
+
+    @property
+    def words_count(self) -> int:
+        """
+        count of words
+        :return: int
+        """
+        return len(self.words)
+
+    def __repr__(self):
+        return f"<Sentence(words={self.words_count}," \
+               f" other_chars={self.other_chars_count})>"
+
+    def __iter__(self):
+        return SentenceIterator(self.words)
+
+    def __getitem__(self, key):
+        return self.words[key]
+
+
+if __name__ == "__main__":
+    sentence = Sentence(SENTENCE)
+
+    print(sentence)
+    print(sentence.words)
+    print(sentence.other_chars)
+    print(sentence[2:16])
+    print(sentence[-3])
+    for word in sentence[100:110]:
+        print(word, end=" ")
