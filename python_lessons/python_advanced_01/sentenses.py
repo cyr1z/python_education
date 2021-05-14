@@ -93,7 +93,7 @@ class SentenceIterator:
         the words list
         :return: list
         """
-        return self.words
+        return self._words
 
 
 class Sentence:
