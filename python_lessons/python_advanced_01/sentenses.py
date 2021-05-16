@@ -103,9 +103,10 @@ class Sentence:
 
     def __init__(self, string: str):
         if not isinstance(string, str):
-            raise TypeError
+            raise TypeError('this should be the string')
         if not string.strip().endswith(SENTENCE_END_SYMBOLS):
-            raise ValueError
+            raise ValueError('this should be a completed proposal with '
+                             '".", "?", or "!" at the end')
         self.string = string
 
     @staticmethod
