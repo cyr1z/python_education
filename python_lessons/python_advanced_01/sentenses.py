@@ -80,12 +80,17 @@ class SentenceIterator:
         self._words = words
         self.index = 0
 
+    def __iter__(self):
+        return self
+
     def __next__(self):
         if self.index >= len(self._words):
             raise StopIteration
         result = self._words[self.index]
         self.index += 1
         return result
+
+
 
     @property
     def words(self):
@@ -188,6 +193,7 @@ class Sentence:
 
 if __name__ == "__main__":
     sentence = Sentence(SENTENCE)
+    sentence_iterator = SentenceIterator(sentence.words)
 
     print(sentence)
     print(sentence.words)
@@ -196,3 +202,5 @@ if __name__ == "__main__":
     print(sentence[-3])
     for word in sentence[100:110]:
         print(word, end=" ")
+    for word in sentence_iterator:
+        print(word)
