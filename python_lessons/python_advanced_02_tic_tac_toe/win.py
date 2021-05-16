@@ -67,4 +67,4 @@ class Win:
         combinations = self.rows + self.cols
         combinations.append(self.forward_diagonal)
         combinations.append(self.backward_diagonal)
-        return combinations
+        return list(map(set, combinations))
