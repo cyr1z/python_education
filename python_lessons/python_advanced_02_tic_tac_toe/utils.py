@@ -24,14 +24,14 @@ def get_digit(choices: list, welcome_string) -> int:
     return line
 
 
-def get_player_name(wromg_name='') -> str:
+def get_player_name(wrong_name='') -> str:
     """
     det name string
     :return: str
     """
     while True:
         name = input("What is your name: ")
-        if name == wromg_name:
+        if name == wrong_name:
             print("the name already taken.")
         else:
             break
@@ -44,7 +44,6 @@ def read_log(filename):
     :param filename: str
     :return: str
     """
-    # TODO: rewrite file reading
     with open(filename, 'r') as file:
-        line = file.read()
-    return line
+        lines = file.read()
+    return lines
