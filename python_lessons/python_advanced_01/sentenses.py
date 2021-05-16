@@ -90,8 +90,6 @@ class SentenceIterator:
         self.index += 1
         return result
 
-
-
     @property
     def words(self):
         """
