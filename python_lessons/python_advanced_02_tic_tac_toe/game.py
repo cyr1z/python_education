@@ -54,6 +54,21 @@ class Game:
             message = " DRAW "
             raise GameOver(message)
 
+    def step(self, player):
+        """
+        running game step for player
+        :param player: Player
+        :return: Player
+        """
+        try:
+            self.play(player)
+        except GameOver as game_over:
+            print(game_over)
+            print(self.table)
+            if player.winner:
+                score[player.name] += 1
+            return player
+
 
 def game_play(player1, player2, is_new_game=False):
     """
@@ -67,8 +82,6 @@ def game_play(player1, player2, is_new_game=False):
     if is_new_game:
         score = {player1.name: 0, player2.name: 0}
     else:
-        # TODO: fix double logging
-        logging.info(score)
         player1.clear()
         player2.clear()
 
@@ -76,24 +89,13 @@ def game_play(player1, player2, is_new_game=False):
     game = Game(table_grid=table, numbers_map=NUMBERS_MAP)
 
     while True:
-        try:
-            game.play(player1)
-        except GameOver as game_over:
-            print(game_over)
-            print(game.table)
-            if player1.winner:
-                score[player1.name] += 1
-                if not is_new_game:
-                    logging.info(score)
+        winner = game.step(player1)
+        if winner:
             break
 
-        try:
-            game.play(player2)
-        except GameOver as game_over:
-            print(game_over)
-            print(game.table)
-            if player2.winner:
-                score[player2.name] += 1
-                if not is_new_game:
-                    logging.info(score)
+        winner = game.step(player2)
+        if winner:
             break
+
+    if not is_new_game:
+        logging.info(score)
