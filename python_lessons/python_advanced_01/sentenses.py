@@ -200,5 +200,7 @@ if __name__ == "__main__":
     print(sentence[-3])
     for word in sentence[100:110]:
         print(word, end=" ")
+    print("\n", "outgrabe" in sentence_iterator)
     for word in sentence_iterator:
         print(word)
+
