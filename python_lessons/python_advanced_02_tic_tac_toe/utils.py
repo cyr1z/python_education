@@ -1,6 +1,7 @@
 """
 simple utils
 """
+from settings import NO_LOG_MESSAGE
 
 
 def get_digit(choices: list, welcome_string: str) -> int:
@@ -46,4 +47,6 @@ def read_log(filename):
     """
     with open(filename, 'r') as file:
         lines = file.read()
+    if not lines:
+        lines = NO_LOG_MESSAGE
     return lines

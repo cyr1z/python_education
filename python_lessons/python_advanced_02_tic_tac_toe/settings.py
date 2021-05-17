@@ -30,3 +30,4 @@ DRAW_MESSAGE = "   DRAW"
 MENU_WELCOME = 'Select one: \n'
 PLAYER_ONE_CREATE = "== Player 1 =="
 PLAYER_TWO_CREATE = "== Player 2 =="
+NO_LOG_MESSAGE = 'empty log'
