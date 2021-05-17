@@ -3,9 +3,9 @@ Game module.
 """
 import logging
 from itertools import chain
-from utils import get_digit
+from app.controller.utils import get_digit
 
-from table import GameTable
+from app.view.table import GameTable
 from settings import NUMBERS_MAP, MESSAGE_FORMAT, TIME_FORMAT, LOGFILE, \
     SELECT_NUMBER, WIN_MESSAGE, DRAW_MESSAGE
 

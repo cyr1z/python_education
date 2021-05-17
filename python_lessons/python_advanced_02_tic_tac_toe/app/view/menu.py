@@ -5,7 +5,7 @@ Menu module.
 from termtables import to_string
 
 from settings import MENU_WELCOME
-from utils import get_digit
+from app.controller.utils import get_digit
 
 
 class Menu:

@@ -2,7 +2,7 @@
 Player module
 """
 from settings import X_SYMBOL, O_SYMBOL, PLAYER_ONE_CREATE, PLAYER_TWO_CREATE
-from utils import get_player_name
+from app.controller.utils import get_player_name
 
 
 class Player:
