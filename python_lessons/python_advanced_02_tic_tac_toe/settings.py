@@ -24,3 +24,9 @@ END_MENU = [
 TIME_FORMAT = "%d-%m-%Y %H:%M"
 MESSAGE_FORMAT = "%(asctime)s  %(message)s"
 LOGFILE = 'win.log'
+SELECT_NUMBER = "{}, select number: "
+WIN_MESSAGE = "   {} WIN!!!"
+DRAW_MESSAGE = "   DRAW"
+MENU_WELCOME = 'Select one: \n'
+PLAYER_ONE_CREATE = "== Player 1 =="
+PLAYER_TWO_CREATE = "== Player 2 =="

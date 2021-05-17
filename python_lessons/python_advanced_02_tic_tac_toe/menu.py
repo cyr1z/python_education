@@ -4,6 +4,7 @@ Menu module.
 """
 from termtables import to_string
 
+from settings import MENU_WELCOME
 from utils import get_digit
 
 
@@ -18,7 +19,7 @@ class Menu:
         self.ask_numbers = ask_numbers
 
     def __str__(self):
-        return 'Select one: \n' + to_string(self.menu_list, padding=(0, 2))
+        return MENU_WELCOME + to_string(self.menu_list, padding=(0, 2))
 
     @property
     def numbers(self) -> list:

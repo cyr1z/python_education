@@ -1,7 +1,7 @@
 """
 Player module
 """
-from settings import X_SYMBOL, O_SYMBOL
+from settings import X_SYMBOL, O_SYMBOL, PLAYER_ONE_CREATE, PLAYER_TWO_CREATE
 from utils import get_player_name
 
 
@@ -46,14 +46,14 @@ class Player:
 
 def get_new_users(win_combinations):
     """
-    get new player
+    get 2 new players
     :param win_combinations: list
     :return: list
     """
-    print("== Player 1 ==")
+    print(PLAYER_ONE_CREATE)
     name1 = get_player_name()
     player_1 = Player(name1, win_combinations, X_SYMBOL)
-    print("== Player 2 ==")
+    print(PLAYER_TWO_CREATE)
     name2 = get_player_name(name1)
     player_2 = Player(name2, win_combinations, O_SYMBOL)
     return [player_1, player_2]

@@ -3,7 +3,7 @@ simple utils
 """
 
 
-def get_digit(choices: list, welcome_string) -> int:
+def get_digit(choices: list, welcome_string: str) -> int:
     """
     get digit from user input
     :param choices: lst

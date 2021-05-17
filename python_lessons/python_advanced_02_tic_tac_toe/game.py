@@ -6,7 +6,8 @@ from itertools import chain
 from utils import get_digit
 
 from table import GameTable
-from settings import NUMBERS_MAP, MESSAGE_FORMAT, TIME_FORMAT, LOGFILE
+from settings import NUMBERS_MAP, MESSAGE_FORMAT, TIME_FORMAT, LOGFILE, \
+    SELECT_NUMBER, WIN_MESSAGE, DRAW_MESSAGE
 
 # logging wins
 logging.basicConfig(
@@ -17,6 +18,7 @@ logging.basicConfig(
 )
 
 score = {}
+control_score_sum = 0
 
 
 class GameOver(Exception):
@@ -41,17 +43,17 @@ class Game:
         print(self.table)
         number = get_digit(
             self.table_choices,
-            f"{player.name}, select number: "
+            SELECT_NUMBER.format(player.name)
         )
         self.table_choices.remove(number)
         self.table.change_item(number, player.symbol)
         player.make_choice(number)
         if player.is_player_win():
-            message = f"  {player.name}, WIN!!!"
+            message = WIN_MESSAGE.format(player.name)
             logging.info(message)
             raise GameOver(message)
         if not self.table_choices:
-            message = " DRAW "
+            message = DRAW_MESSAGE
             raise GameOver(message)
 
     def step(self, player):
@@ -79,11 +81,19 @@ def game_play(player1, player2, is_new_game=False):
     :return:
     """
     global score
+    global control_score_sum
     if is_new_game:
+        # set default score
         score = {player1.name: 0, player2.name: 0}
     else:
+        # clearing players choices and winner mark
         player1.clear()
         player2.clear()
+
+        # logging
+        if sum(score.values()) > control_score_sum:
+            logging.info(score)
+            control_score_sum = sum(score.values())
 
     table = GameTable(NUMBERS_MAP)
     game = Game(table_grid=table, numbers_map=NUMBERS_MAP)
@@ -97,5 +107,7 @@ def game_play(player1, player2, is_new_game=False):
         if winner:
             break
 
-    if not is_new_game:
+    # logging
+    if not is_new_game and sum(score.values()) > control_score_sum:
         logging.info(score)
+        control_score_sum = sum(score.values())
