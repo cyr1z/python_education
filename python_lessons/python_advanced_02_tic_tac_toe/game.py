@@ -56,20 +56,18 @@ class Game:
             message = DRAW_MESSAGE
             raise GameOver(message)
 
-    def step(self, player):
+    def step(self, player) -> bool:
         """
         running game step for player
         :param player: Player
-        :return: Player
+        :return: bool
         """
         try:
             self.play(player)
         except GameOver as game_over:
             print(game_over)
             print(self.table)
-            if player.winner:
-                score[player.name] += 1
-            return player
+            return player.winner
 
 
 def game_play(player1, player2, is_new_game=False):
@@ -82,6 +80,7 @@ def game_play(player1, player2, is_new_game=False):
     """
     global score
     global control_score_sum
+
     if is_new_game:
         # set default score
         score = {player1.name: 0, player2.name: 0}
@@ -99,12 +98,12 @@ def game_play(player1, player2, is_new_game=False):
     game = Game(table_grid=table, numbers_map=NUMBERS_MAP)
 
     while True:
-        winner = game.step(player1)
-        if winner:
+        if game.step(player1):
+            score[player1.name] += 1
             break
 
-        winner = game.step(player2)
-        if winner:
+        if game.step(player2):
+            score[player2.name] += 1
             break
 
     # logging
