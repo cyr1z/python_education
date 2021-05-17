@@ -90,6 +90,9 @@ class SentenceIterator:
         self.index += 1
         return result
 
+    def __len__(self) -> int:
+        return len(self._words)
+
     @property
     def words(self):
         """
@@ -188,6 +191,12 @@ class Sentence:
     def __getitem__(self, key):
         return self.words[key]
 
+    def __len__(self) -> int:
+        return len(self.words)
+
+    def __contains__(self, *args):
+        return self.words.__contains__(*args)
+
 
 if __name__ == "__main__":
     sentence = Sentence(SENTENCE)
@@ -203,4 +212,4 @@ if __name__ == "__main__":
     print("\n", "outgrabe" in sentence_iterator)
     for word in sentence_iterator:
         print(word)
-
+    print('mome' in sentence)
