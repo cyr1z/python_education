@@ -1,0 +1,4 @@
+#  pylint 02_python_homework_hangman/utils/*.py 02_python_homework_hangman/main.py > 02_python_homework_hangman/pylint.txt
+--------------------------------------------------------------------
+Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
+
