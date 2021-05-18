@@ -16,7 +16,7 @@ class Robot(Player):
     def __init__(self, win_combinations, symbol):
         super().__init__(ROBOT_NAME, win_combinations, symbol)
 
-
+# TODO: move this to Game controller
 def make_choice(choices: list) -> int:
     """
     Robot select item number.

@@ -12,12 +12,15 @@ class Player:
     """
 
     def __init__(self, name, win_combinations, symbol):
+        # TODO: move this to Game controller
         self.win_combinations = win_combinations
+        # TODO: move this to Game controller
         self.choices = set()
         self.name = name.capitalize()
         self.symbol = symbol
 
     def is_player_win(self) -> bool:
+        # TODO: move this to Game controller
         """
         check is player win
         :return: bool
@@ -29,6 +32,7 @@ class Player:
                     result = True
         return result
 
+    # TODO: move this to Game controller
     def make_choice(self, number: int):
         """
         add number to choices
@@ -37,6 +41,7 @@ class Player:
         """
         self.choices.add(number)
 
+    # TODO: move this to Game controller
     def clear(self):
         """ clear choices and winner mark"""
         self.choices.clear()
