@@ -12,8 +12,9 @@ X_SYMBOL = '\033[91m\033[1mX\033[0m\033[22m'
 O_SYMBOL = '\033[92m\033[1m0\033[0m\033[22m'
 START_MENU = [
     [0, 'Exit'],
-    [1, 'New Game'],
+    [1, 'New Game with Player'],
     [2, 'View log'],
+    [3, 'New Game with Robot']
 ]
 END_MENU = [
     [0, 'Exit'],
@@ -31,3 +32,4 @@ MENU_WELCOME = 'Select one: \n'
 PLAYER_ONE_CREATE = "== Player 1 =="
 PLAYER_TWO_CREATE = "== Player 2 =="
 NO_LOG_MESSAGE = 'empty log'
+ROBOT_NAME = 'Robot'
