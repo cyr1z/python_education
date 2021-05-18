@@ -4,6 +4,7 @@ Game module.
 import logging
 from itertools import chain
 from app.controller.utils import get_digit
+from app.model.robot import Robot, make_choice
 
 from app.view.table import GameTable
 from settings import NUMBERS_MAP, MESSAGE_FORMAT, TIME_FORMAT, LOGFILE, \
@@ -21,8 +22,12 @@ score = {}
 control_score_sum = 0
 
 
-class GameOver(Exception):
-    """Win or Draw Game Over Exception."""
+class Win(Exception):
+    """Win  Game Over Exception."""
+
+
+class Draw(Exception):
+    """Draw Game Over Exception."""
 
 
 class Game:
@@ -41,22 +46,27 @@ class Game:
         :return:
         """
         print(self.table)
-        number = get_digit(
-            self.table_choices,
-            SELECT_NUMBER.format(player.name)
-        )
+
+        if isinstance(player, Robot):
+            number = make_choice(self.table_choices)
+        else:
+            number = get_digit(
+                self.table_choices,
+                SELECT_NUMBER.format(player.name)
+            )
+
         self.table_choices.remove(number)
         self.table.change_item(number, player.symbol)
         player.make_choice(number)
         if player.is_player_win():
             message = WIN_MESSAGE.format(player.name)
             logging.info(message)
-            raise GameOver(message)
+            raise Win(message)
         if not self.table_choices:
             message = DRAW_MESSAGE
-            raise GameOver(message)
+            raise Draw(message)
 
-    def step(self, player) -> bool:
+    def step(self, player) -> int:
         """
         running game step for player
         :param player: Player
@@ -64,10 +74,15 @@ class Game:
         """
         try:
             self.play(player)
-        except GameOver as game_over:
+        except Win as game_over:
             print(game_over)
             print(self.table)
-            return player.winner
+            return 2
+        except Draw as game_over:
+            print(game_over)
+            print(self.table)
+            return 1
+
 
 
 def game_play(player1, player2, is_new_game=False):
@@ -98,13 +113,23 @@ def game_play(player1, player2, is_new_game=False):
     game = Game(table_grid=table, numbers_map=NUMBERS_MAP)
 
     while True:
-        if game.step(player1):
+        status = game.step(player1)
+        if status == 2:
             score[player1.name] += 1
+            player2.winner = -1
+            break
+        if status == 1:
             break
 
-        if game.step(player2):
+        status = game.step(player2)
+        if status == 2:
             score[player2.name] += 1
+            player1.winner = -1
             break
+        if status == 1:
+            break
+
+    print(player1.winner, player2.winner)
 
     # logging
     if not is_new_game and sum(score.values()) > control_score_sum:
