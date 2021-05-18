@@ -3,6 +3,7 @@ Game module.
 """
 import logging
 from itertools import chain
+
 from app.controller.utils import get_digit
 from app.model.robot import Robot, make_choice
 
@@ -22,31 +23,19 @@ score = {}
 control_score_sum = 0
 
 
-class Win(Exception):
-    """Win  Game Over Exception."""
-
-
-class Draw(Exception):
-    """Draw Game Over Exception."""
-
-
 class Game:
     """
     Game play class
     """
 
-    def __init__(self, table_grid, numbers_map):
-        self.table = table_grid
+    def __init__(self, numbers_map, player1, player2):
+        self.table = GameTable(numbers_map)
         self.table_choices = list(chain(*numbers_map))
+        self.players = []
+        self.players.append(player1)
+        self.players.append(player2)
 
-    def play(self, player):
-        """
-        play step for player
-        :param player: Player
-        :return:
-        """
-        print(self.table)
-
+    def get_choice(self, player):
         if isinstance(player, Robot):
             number = make_choice(self.table_choices)
         else:
@@ -54,38 +43,46 @@ class Game:
                 self.table_choices,
                 SELECT_NUMBER.format(player.name)
             )
+        return number
 
+    def play_step(self, player):
+        """
+        play step for player
+        :param player: Player
+        :return:
+        """
+        print(self.table)
+        number = self.get_choice(player)
         self.table_choices.remove(number)
         self.table.change_item(number, player.symbol)
+        # TODO: move choice tables to Game object from players
         player.make_choice(number)
+
+        result = {}
         if player.is_player_win():
             message = WIN_MESSAGE.format(player.name)
             logging.info(message)
-            raise Win(message)
+            result = {'message': message, 'status': 1, 'winner': player.name}
         if not self.table_choices:
             message = DRAW_MESSAGE
-            raise Draw(message)
+            result = {'message': message, 'status': 0, 'winner': None}
+        return result
 
-    def step(self, player) -> int:
+    def iteration(self) -> dict:
         """
         running game step for player
-        :param player: Player
         :return: bool
         """
-        try:
-            self.play(player)
-        except Win as game_over:
-            print(game_over)
-            print(self.table)
-            return 2
-        except Draw as game_over:
-            print(game_over)
-            print(self.table)
-            return 1
+        request = {}
+        for player in self.players:
+            request = self.play_step(player)
+            if request:
+                print(self.table)
+                break
+        return request
 
 
-
-def game_play(player1, player2, is_new_game=False):
+def run_game(player1, player2, is_new_game=False):
     """
     Gameplay with two players.
     :param is_new_game: bool
@@ -109,27 +106,19 @@ def game_play(player1, player2, is_new_game=False):
             logging.info(score)
             control_score_sum = sum(score.values())
 
-    table = GameTable(NUMBERS_MAP)
-    game = Game(table_grid=table, numbers_map=NUMBERS_MAP)
+    game = Game(
+        numbers_map=NUMBERS_MAP,
+        player1=player1,
+        player2=player2,
+    )
 
     while True:
-        status = game.step(player1)
-        if status == 2:
-            score[player1.name] += 1
-            player2.winner = -1
+        request = game.iteration()
+        if request:
+            print(request.get('message'))
+            if request.get('status'):
+                score[request.get('winner')] += 1
             break
-        if status == 1:
-            break
-
-        status = game.step(player2)
-        if status == 2:
-            score[player2.name] += 1
-            player1.winner = -1
-            break
-        if status == 1:
-            break
-
-    print(player1.winner, player2.winner)
 
     # logging
     if not is_new_game and sum(score.values()) > control_score_sum:

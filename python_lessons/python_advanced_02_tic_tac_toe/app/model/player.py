@@ -16,7 +16,6 @@ class Player:
         self.choices = set()
         self.name = name.capitalize()
         self.symbol = symbol
-        self.winner = 0
 
     def is_player_win(self) -> bool:
         """
@@ -28,7 +27,6 @@ class Player:
             for item in self.win_combinations:
                 if item <= self.choices:
                     result = True
-        self.winner = int(result)
         return result
 
     def make_choice(self, number: int):
@@ -42,7 +40,6 @@ class Player:
     def clear(self):
         """ clear choices and winner mark"""
         self.choices.clear()
-        self.winner = 0
 
 
 def get_new_users(win_combinations):
@@ -58,6 +55,3 @@ def get_new_users(win_combinations):
     name2 = get_player_name(name1)
     player_2 = Player(name2, win_combinations, O_SYMBOL)
     return [player_1, player_2]
-
-
-
