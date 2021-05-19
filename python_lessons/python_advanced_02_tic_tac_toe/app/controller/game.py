@@ -2,14 +2,15 @@
 Game module.
 """
 import logging
-from itertools import chain
 
+from app.controller.robot_choice import make_choice
 from app.controller.utils import get_digit
-from app.model.robot import Robot, make_choice
+from app.model.robot import Robot
 
-from app.view.table import GameTable
+from app.model.table import GameTable
+from app.view.table_view import TableView
 from settings import NUMBERS_MAP, MESSAGE_FORMAT, TIME_FORMAT, LOGFILE, \
-    SELECT_NUMBER, WIN_MESSAGE, DRAW_MESSAGE
+    SELECT_NUMBER, WIN_MESSAGE, DRAW_MESSAGE, X_SYMBOL, O_SYMBOL
 
 # logging wins
 logging.basicConfig(
@@ -28,22 +29,34 @@ class Game:
     Game play class
     """
 
-    def __init__(self, numbers_map, player1, player2):
+    def __init__(self, numbers_map, player1, player2, win_combinations):
         self.table = GameTable(numbers_map)
-        self.table_choices = list(chain(*numbers_map))
         self.players = []
         self.players.append(player1)
         self.players.append(player2)
+        self.win_combinations = win_combinations
 
     def get_choice(self, player):
         if isinstance(player, Robot):
-            number = make_choice(self.table_choices)
+            number = make_choice(self.table.variants)
         else:
             number = get_digit(
-                self.table_choices,
+                self.table.variants,
                 SELECT_NUMBER.format(player.name)
             )
         return number
+
+    def is_player_win(self, choices: set) -> bool:
+        """
+        check is player win
+        :return: bool
+        """
+        result = False
+        if len(choices) >= 3:
+            for item in self.win_combinations:
+                if item <= choices:
+                    result = True
+        return result
 
     def play_step(self, player):
         """
@@ -51,19 +64,28 @@ class Game:
         :param player: Player
         :return:
         """
-        print(self.table)
+        table_view = TableView(
+            numbers_map=NUMBERS_MAP,
+            x_symbol=X_SYMBOL,
+            o_symbol=O_SYMBOL,
+            **self.table.choices)
+        print(table_view)
         number = self.get_choice(player)
-        self.table_choices.remove(number)
-        self.table.change_item(number, player.symbol)
-        # TODO: move choice tables to Game object from players
-        player.make_choice(number)
+        self.table.variants.remove(number)
+
+        if player.symbol == X_SYMBOL:
+            player_choices = self.table.x_choices
+        else:
+            player_choices = self.table.o_choices
+
+        player_choices.add(number)
 
         result = {}
-        if player.is_player_win():
+        if self.is_player_win(player_choices):
             message = WIN_MESSAGE.format(player.name)
             logging.info(message)
             result = {'message': message, 'status': 1, 'winner': player.name}
-        if not self.table_choices:
+        if not self.table.variants:
             message = DRAW_MESSAGE
             result = {'message': message, 'status': 0, 'winner': None}
         return result
@@ -77,14 +99,20 @@ class Game:
         for player in self.players:
             request = self.play_step(player)
             if request:
-                print(self.table)
+                table_view = TableView(
+                    numbers_map=NUMBERS_MAP,
+                    x_symbol=X_SYMBOL,
+                    o_symbol=O_SYMBOL,
+                    **self.table.choices)
+                print(table_view)
                 break
         return request
 
 
-def run_game(player1, player2, is_new_game=False):
+def run_game(player1, player2, win_combinations, is_new_game=False):
     """
     Gameplay with two players.
+    :param win_combinations: list
     :param is_new_game: bool
     :param player1: Player
     :param player2: Player
@@ -96,10 +124,6 @@ def run_game(player1, player2, is_new_game=False):
     if is_new_game:
         # set default score
         score = {player1.name: 0, player2.name: 0}
-    else:
-        # clearing players choices and winner mark
-        player1.clear()
-        player2.clear()
 
         # logging
         if sum(score.values()) > control_score_sum:
@@ -110,6 +134,7 @@ def run_game(player1, player2, is_new_game=False):
         numbers_map=NUMBERS_MAP,
         player1=player1,
         player2=player2,
+        win_combinations=win_combinations
     )
 
     while True:
