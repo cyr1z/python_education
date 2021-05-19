@@ -21,5 +21,3 @@ class GameTable:
     @property
     def choices(self):
         return {'x_choices': self.x_choices, 'o_choices': self.o_choices}
-
-
