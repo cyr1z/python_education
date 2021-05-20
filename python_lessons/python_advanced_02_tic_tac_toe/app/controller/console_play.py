@@ -65,4 +65,4 @@ def main():
                 print(read_log(LOGFILE))
 
             if int_choice == 3:
-                run_game(users[0], users[1],  win.combinations)
+                run_game(users[0], users[1], win.combinations)
