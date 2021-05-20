@@ -20,4 +20,8 @@ class GameTable:
 
     @property
     def choices(self):
+        """
+        
+        :return:
+        """
         return {'x_choices': self.x_choices, 'o_choices': self.o_choices}

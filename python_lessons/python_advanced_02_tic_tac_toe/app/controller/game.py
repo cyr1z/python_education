@@ -38,7 +38,7 @@ class Game:
 
     def get_choice(self, player):
         if isinstance(player, Robot):
-            number = make_choice(self.table.variants)
+            number = make_choice(self.table)
         else:
             number = get_digit(
                 self.table.variants,
@@ -99,12 +99,6 @@ class Game:
         for player in self.players:
             request = self.play_step(player)
             if request:
-                table_view = TableView(
-                    numbers_map=NUMBERS_MAP,
-                    x_symbol=X_SYMBOL,
-                    o_symbol=O_SYMBOL,
-                    **self.table.choices)
-                print(table_view)
                 break
         return request
 
@@ -140,6 +134,12 @@ def run_game(player1, player2, win_combinations, is_new_game=False):
     while True:
         request = game.iteration()
         if request:
+            table_view = TableView(
+                numbers_map=NUMBERS_MAP,
+                x_symbol=X_SYMBOL,
+                o_symbol=O_SYMBOL,
+                **game.table.choices)
+            print(table_view)
             print(request.get('message'))
             if request.get('status'):
                 score[request.get('winner')] += 1
