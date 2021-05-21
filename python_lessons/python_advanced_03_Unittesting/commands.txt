@@ -1,0 +1,2 @@
+pytest -v --cov=software_testing --cov-report=html tests/ 
+pytest -v --cov=software_testing tests/
