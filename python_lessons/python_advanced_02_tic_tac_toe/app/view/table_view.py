@@ -6,13 +6,12 @@ from settings import NUMBERS_MAP, X_SYMBOL, O_SYMBOL
 
 
 class TableView:
-    def __init__(self, numbers_map=NUMBERS_MAP, x_symbol=X_SYMBOL,
-                 o_symbol=O_SYMBOL, **kwargs):
-        self.grid = deepcopy(numbers_map)
+    def __init__(self, **kwargs):
+        self.grid = deepcopy(NUMBERS_MAP)
         self.x_choices = kwargs.get('x_choices')
         self.o_choices = kwargs.get('o_choices')
-        self.x_symbol = x_symbol
-        self.o_symbol = o_symbol
+        self.x_symbol = X_SYMBOL
+        self.o_symbol = O_SYMBOL
 
     @staticmethod
     def replace_to_symbol(grid: list, choices: set, symbol: str):

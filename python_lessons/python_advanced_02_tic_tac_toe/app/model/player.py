@@ -1,9 +1,10 @@
 """
 Player module
 """
-
-from settings import X_SYMBOL, O_SYMBOL, PLAYER_ONE_CREATE, PLAYER_TWO_CREATE
-from app.controller.utils import get_player_name
+from app.model.table import GameTable
+from settings import X_SYMBOL, O_SYMBOL, PLAYER_ONE_CREATE, PLAYER_TWO_CREATE, \
+    SELECT_NUMBER
+from app.model.utils import get_player_name, get_digit
 
 
 class Player:
@@ -14,6 +15,14 @@ class Player:
     def __init__(self, name, symbol):
         self.name = name.capitalize()
         self.symbol = symbol
+
+    def get_choice(self, table: GameTable) -> int:
+        """
+        Human select item number.
+        :param table: GameTable
+        :return: int
+        """
+        return get_digit(table.variants, SELECT_NUMBER.format(self.name))
 
 
 def get_new_users():
