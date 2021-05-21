@@ -1,2 +1,9 @@
 pytest -v --cov=software_testing --cov-report=html tests/ 
 pytest -v --cov=software_testing tests/
+pytest --cov-report term-missing --cov=myproj tests/
+pytest --cov-report term:skip-covered --cov=myproj tests/
+https://pytest-cov.readthedocs.io/en/latest/reporting.html
+pytest --cov-report html:cov_html
+        --cov-report xml:cov.xml
+        --cov-report annotate:cov_annotate
+        --cov=software_testing tests/
