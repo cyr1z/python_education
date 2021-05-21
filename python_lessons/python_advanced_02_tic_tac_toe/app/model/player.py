@@ -2,8 +2,8 @@
 Player module
 """
 from app.model.table import GameTable
-from settings import X_SYMBOL, O_SYMBOL, PLAYER_ONE_CREATE, PLAYER_TWO_CREATE, \
-    SELECT_NUMBER
+from settings import X_SYMBOL, O_SYMBOL, PLAYER_ONE_CREATE, \
+    PLAYER_TWO_CREATE, SELECT_NUMBER
 from app.model.utils import get_player_name, get_digit
 
 
