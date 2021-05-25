@@ -22,19 +22,19 @@ def get_user_and_robot():
     return [player_1, player_2]
 
 
-def is_maximize_player(table):
-    return len(table.x_choices) > len(table.o_choices)
-
-
-def max_value(table):
+def minimax(table):
     if table.is_terminal:
         return table.utility
 
-    best_score = float('-inf')
+    best_score = float('inf')
+    if table.is_maximize_player:
+        best_score *= -1
     for item in table.variants:
         table.move(item)
-        score = min_value()
-        if best_score < score:
+        score = minimax(table)
+        if table.is_maximize_player and best_score < score:
+            best_score = score
+        elif not table.is_maximize_player and best_score > score:
             best_score = score
     return best_score
 
@@ -46,13 +46,14 @@ def min_value(table):
     best_score = float('inf')
     for item in table.variants:
         table.move(item)
-        score = max_value(table)
+        score = minimax(table)
         if best_score > score:
             best_score = score
     return best_score
 
 
 def best_choice(table):
+    table = deepcopy(table)
     best_score = float('-inf')
     for item in table.variants:
         table.move(item)

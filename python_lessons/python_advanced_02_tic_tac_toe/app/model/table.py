@@ -39,6 +39,10 @@ class GameTable:
                any(_ <= self.o_choices for _ in self.wins) or not self.variants
 
     @property
+    def is_maximize_player(self):
+        return len(self.x_choices) > len(self.o_choices)
+
+    @property
     def utility(self):
         if any(_ <= self.x_choices for _ in self.wins):
             status = -10
@@ -57,7 +61,7 @@ class GameTable:
         self.o_choices.add(number)
 
     def move(self, number):
-        if len(self.x_choices) > len(self.o_choices):
+        if self.is_maximize_player:
             self.o_move(number)
         else:
             self.x_move(number)
