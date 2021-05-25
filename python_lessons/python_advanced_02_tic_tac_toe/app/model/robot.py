@@ -22,12 +22,35 @@ def get_user_and_robot():
     return [player_1, player_2]
 
 
+def is_maximize_player(table):
+    return len(table.x_choices) > len(table.o_choices)
+
+
+def is_terminal(table) -> bool:
+    """
+    is game over?
+    :return: bool
+    """
+    return any(_ <= table.x_choices for _ in table.wins) or \
+           any(_ <= table.o_choices for _ in table.wins) or not table.variants
+
+
+def utility(table):
+    if any(_ <= table.x_choices for _ in table.wins):
+        status = -10
+    elif any(_ <= table.o_choices for _ in table.wins):
+        status = 10
+    elif not table.variants:
+        status = 0
+    return status
+
+
 def minimax(table):
-    if table.is_terminal:
-        return table.utility
+    if is_terminal(table):
+        return utility(table)
 
     best_score = float('inf')
-    if table.is_maximize_player:
+    if is_maximize_player(table):
         best_score *= -1
     for item in table.variants:
         table.move(item)
