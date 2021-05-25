@@ -39,25 +39,12 @@ def minimax(table):
     return best_score
 
 
-def min_value(table):
-    if table.is_terminal:
-        return table.utility
-
-    best_score = float('inf')
-    for item in table.variants:
-        table.move(item)
-        score = minimax(table)
-        if best_score > score:
-            best_score = score
-    return best_score
-
-
 def best_choice(table):
     table = deepcopy(table)
     best_score = float('-inf')
     for item in table.variants:
         table.move(item)
-        score = min_value(table)
+        score = minimax(table)
         if best_score < score:
             best_score = score
             result = item
