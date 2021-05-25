@@ -35,6 +35,10 @@ class GameTable:
 
     @property
     def is_terminal(self):
+        """
+        is gfme over?
+        :return:
+        """
         return any(_ <= self.x_choices for _ in self.wins) or \
                any(_ <= self.o_choices for _ in self.wins) or not self.variants
 
