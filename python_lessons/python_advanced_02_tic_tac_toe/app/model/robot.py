@@ -22,46 +22,45 @@ def get_user_and_robot():
     return [player_1, player_2]
 
 
-class Minimax:
-    def __init__(self, table):
-        self.table = deepcopy(table)
+def is_maximize_player(table):
+    return len(table.x_choices) > len(table.o_choices)
 
-    def is_maximize_player(self):
-        return len(self.table.x_choices) > len(self.table.o_choices)
 
-    def max_value(self):
-        if self.table.is_terminal:
-            return self.table.utility
+def max_value(table):
+    if table.is_terminal:
+        return table.utility
 
-        best_score = float('-inf')
-        for item in self.table.variants:
-            self.table.move(item)
-            score = self.min_value()
-            if best_score < score:
-                best_score = score
-        return best_score
+    best_score = float('-inf')
+    for item in table.variants:
+        table.move(item)
+        score = min_value()
+        if best_score < score:
+            best_score = score
+    return best_score
 
-    def min_value(self):
-        if self.table.is_terminal:
-            return self.table.utility
 
-        best_score = float('inf')
-        for item in self.table.variants:
-            self.table.move(item)
-            score = self.max_value()
-            if best_score > score:
-                best_score = score
-        return best_score
+def min_value(table):
+    if table.is_terminal:
+        return table.utility
 
-    def best_choice(self):
-        best_score = float('-inf')
-        for item in self.table.variants:
-            self.table.move(item)
-            score = self.min_value()
-            if best_score < score:
-                best_score = score
-                result = item
-        return result
+    best_score = float('inf')
+    for item in table.variants:
+        table.move(item)
+        score = max_value(table)
+        if best_score > score:
+            best_score = score
+    return best_score
+
+
+def best_choice(table):
+    best_score = float('-inf')
+    for item in table.variants:
+        table.move(item)
+        score = min_value(table)
+        if best_score < score:
+            best_score = score
+            result = item
+    return result
 
 
 class Robot(Player):
@@ -78,5 +77,5 @@ class Robot(Player):
         :param table: GameTable
         :return: int
         """
-        minimax = Minimax(table)
-        return minimax.best_choice()
+
+        return best_choice(table)
