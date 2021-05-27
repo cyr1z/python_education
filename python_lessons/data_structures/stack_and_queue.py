@@ -1,7 +1,11 @@
+"""
+Stack and Queue classes are based on LinkedLists
+"""
 from linked_list import LinkedList, DoublyLinkedLists
 
 
 class Stack(LinkedList):
+    """ Stack based on LinkedList """
     def push(self, value):
         self.prepend(value)
 
@@ -13,6 +17,7 @@ class Stack(LinkedList):
 
 
 class Queue(DoublyLinkedLists):
+    """ Queue based on DoublyLinkedList"""
     def enqueue(self, value):
         self.prepend(value)
 
