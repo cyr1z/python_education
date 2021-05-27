@@ -91,3 +91,4 @@ class GameTable:
 
     def __str__(self):
         return TableView(**self.choices)
+

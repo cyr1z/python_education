@@ -57,15 +57,16 @@ def minimax(table):
         score = minimax(table)
         if table.is_maximize_player and best_score < score:
             best_score = score
+            result = item
         elif not table.is_maximize_player and best_score > score:
             best_score = score
     return best_score
 
 
 def best_choice(table):
-    table = deepcopy(table)
     best_score = float('-inf')
     for item in table.variants:
+        table = deepcopy(table)
         table.move(item)
         score = minimax(table)
         if best_score < score:
