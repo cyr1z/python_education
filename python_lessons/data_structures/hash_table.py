@@ -62,17 +62,18 @@ class HashTable(LinkedList):
         """ delete item in key position """
         hash_code = hash_func(key)
         if self.first is None:
-            raise KeyError(f"key [{key}] out of index range")
-        else:
-            item = self.first
-            prev = self._head
-            while item:
-                if item.hash_code == hash_code:
-                    prev.set_next(item.get_next())
-                    return item.get()
-                prev = item
-                item = item.get_next()
-        raise KeyError(f"key [{key}] out of index range")
+            raise KeyError(f"key [{key}] out of range")
+        item = self.first
+        prev = self._head
+        while item:
+            if item.hash_code == hash_code:
+                prev.set_next(item.get_next())
+                return item.get()
+            if item is None:
+                raise KeyError(f"key [{key}] out of range")
+            prev = item
+            item = item.get_next()
+        raise KeyError(f"key [{key}] out of range")
 
     def lookup(self, key):
         """ return value index. """
@@ -80,7 +81,9 @@ class HashTable(LinkedList):
         if self.first is None:
             raise KeyError(f"key [{key}] out of range")
         item = self.first
-        while item.hash_code != hash_code:
+        while item:
+            if item.hash_code == hash_code:
+                break
             if item is None:
                 raise KeyError(f"key [{key}] out of range")
             item = item.get_next()
@@ -89,18 +92,14 @@ class HashTable(LinkedList):
     def insert(self, key, value):
         """ insert value to key position."""
         hash_code = hash_func(key)
-        prev = None
         item = self.first
-        while item.hash_code != hash_code:
-            if item is None:
-                self.append(key, value)
+        while item is not None:
+            if item.hash_code == hash_code:
+                item.set_data(key, value)
                 break
-            prev = item
             item = item.get_next()
-
-        new_item = self.Node(key, value)
-        new_item.set_next(item.get_next())
-        prev.set_next(new_item)
+        else:
+            self.append(key, value)
 
     def __getitem__(self, key):
         return self.lookup(key)
@@ -122,6 +121,8 @@ if __name__ == "__main__":
     hash_table["One"] = 5
 
     print(hash_table["One"])
+
+    hash_table.insert('Sam', 1000)
     print(hash_table)
     hash_table["Two"] = 2
     print(hash_table)
@@ -129,3 +130,4 @@ if __name__ == "__main__":
     print(hash_table)
     hash_table.delete('One')
     print(hash_table)
+    print(hash_table.lookup('Two'))
