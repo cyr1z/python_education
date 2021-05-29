@@ -1,5 +1,4 @@
 """binary tree"""
-from random import random, randint
 
 
 class BinaryTree:
@@ -43,6 +42,7 @@ class BinaryTree:
             self.data = data
 
         def insert(self, data):
+            """insert a node"""
             if self.data:
                 if data < self.data:
                     if self.left is None:
@@ -62,6 +62,7 @@ class BinaryTree:
                 self.data = data
 
         def parent_connect(self, node):
+            """connect node with parent"""
             if self.parent.get() >= self.data:
                 self.parent.set_left(node)
                 if node and node.left is not None:
@@ -72,6 +73,7 @@ class BinaryTree:
                     node.set_parent(self.parent)
 
         def minimal_child_node(self):
+            """ search minimal node """
             item = self
             while item.right is not None:
                 item = item.right
@@ -96,6 +98,7 @@ class BinaryTree:
                 mini_me.delete()
 
         def lookup(self, target):
+            """ find a node """
             if target == self.data:
                 return self
             if target < self.data and self.left is not None:
@@ -104,6 +107,7 @@ class BinaryTree:
                 return self.right.lookup(target)
 
         def get_tree_view(self, level=0, unit=''):
+            """ make tree string """
             result = ''
             if self.left:
                 result += self.left.get_tree_view(level + 1, '/')
@@ -131,6 +135,7 @@ class BinaryTree:
             self.root = self.Node(data)
 
     def insert(self, data):
+        """ insert new node """
         new_node = self.Node(data)
         if self.root is None:
             self.root = new_node
@@ -138,35 +143,23 @@ class BinaryTree:
             self.root.insert(data)
 
     def lookup(self, target):
+        """ find node """
         if self.root is None:
             return None
         return self.root.lookup(target)
 
     def delete(self, data):
+        """ delete node """
         target = self.lookup(data)
         target.delete()
-
-    def height_from_node(self, node):
-        if node is None:
-            result_height = 0
-        else:
-            left_height = self.height_from_node(node.left)
-            right_height = self.height_from_node(node.right)
-
-            if left_height > right_height:
-                result_height = left_height + 1
-            else:
-                result_height = right_height + 1
-        return result_height
-
-    def height(self):
-        return self.height_from_node(self.root)
 
     def __str__(self):
         return self.root.get_tree_view()
 
 
 if __name__ == "__main__":
+    from random import randint
+
     tree = BinaryTree(randint(10, 100))
     for _ in range(10):
         tree.insert(randint(10, 100))

@@ -21,6 +21,7 @@ class HashTable(LinkedList):
             self.data.append(value)
 
         def set_data(self, key, value):
+            """set node data"""
             if not self.hash_code:
                 self.hash_code = hash_func(key)
                 self.data.append(value)
@@ -30,6 +31,7 @@ class HashTable(LinkedList):
                 raise ValueError("Value not for this hash_code item")
 
         def get(self):
+            """ get node data """
             return self.data
 
         def get_next(self):
@@ -57,8 +59,8 @@ class HashTable(LinkedList):
         self.first.set_next(temp)
 
     def delete(self, key):
-        hash_code = hash_func(key)
         """ delete item in key position """
+        hash_code = hash_func(key)
         if self.first is None:
             raise KeyError(f"key [{key}] out of index range")
         else:

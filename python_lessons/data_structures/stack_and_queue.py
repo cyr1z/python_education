@@ -1,35 +1,40 @@
-"""
-Stack and Queue classes are based on LinkedLists
-"""
+"""Stack and Queue classes."""
 from linked_list import LinkedList, DoublyLinkedLists
 
 
 class Stack(LinkedList):
-    """ Stack based on LinkedList """
+    """ Stck class """
+
     def push(self, value):
+        """put node to Stack"""
         self.prepend(value)
 
     def pop(self):
+        """get node from Stack"""
         return self.remove_first()
 
     def peek(self):
-        return self.first
+        """show fist node in Stack"""
+        return self.first.data
 
 
 class Queue(DoublyLinkedLists):
-    """ Queue based on DoublyLinkedList"""
+    """Queue class"""
+
     def enqueue(self, value):
+        """put node to queue"""
         self.prepend(value)
 
     def dequeue(self):
+        """get node from queue"""
         return self.remove_last()
 
     def peek(self):
+        """show fist node in queue"""
         return self.last
 
 
 if __name__ == "__main__":
-
     stack = Stack()
     print(stack)
     print(stack.pop())

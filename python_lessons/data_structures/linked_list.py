@@ -6,16 +6,20 @@ from copy import deepcopy
 
 
 class LinkedList:
+    """ Linked List class"""
+
     class Anchor:
         """ class for head and tail of lists """
 
         def __init__(self):
             self.next = None
 
-        def set_next(self, next):
-            self.next = next
+        def set_next(self, next_node):
+            """set nxt node """
+            self.next = next_node
 
         def get_next(self):
+            """ getting next node """
             return self.next
 
     class Node:
@@ -236,9 +240,9 @@ class LinkedList:
         return False
 
 
-
-
 class DoublyLinkedLists(LinkedList):
+    """ Doubly Linked Lists class"""
+
     class Node:
         """ class for lists nodes """
 
@@ -396,9 +400,9 @@ class DoublyLinkedLists(LinkedList):
         self._head.set_next(new_first)
         self._tail.set_next(new_last)
         while item:
-            next = item.get_next()
+            next_item = item.get_next()
             item.next, item.prev = item.prev, item.next
-            item = next
+            item = next_item
 
     def __getitem__(self, key):
         if self.first is None:
@@ -462,3 +466,5 @@ if __name__ == "__main__":
     ddll[0] = 1661
     print(ddll)
     print(sorted(ddll))
+    ddll[5] = 8080
+    print(ddll)
