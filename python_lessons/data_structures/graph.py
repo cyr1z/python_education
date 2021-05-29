@@ -96,4 +96,3 @@ if __name__ == "__main__":
     print(da_graph.lookup(16))
     print(da_graph.first)
     print(da_graph[12])
-
