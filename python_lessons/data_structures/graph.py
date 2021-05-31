@@ -1,3 +1,5 @@
+"""Graph class"""
+
 from linked_list import LinkedList
 
 
@@ -35,6 +37,7 @@ class Graph:
             return f'{self.data}: {connections}'
 
     def lookup_from_node(self, node, target, visited):
+        """find node"""
         visited.append(node)
         if target == node.data:
             return node
@@ -66,6 +69,7 @@ class Graph:
             self.first = self.Node(data)
 
     def delete(self, data):
+        """delete node"""
         target = self.lookup(data)
         print(target)
         if target:

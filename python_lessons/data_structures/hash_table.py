@@ -114,20 +114,3 @@ class HashTable(LinkedList):
             item = item.get_next()
         else:
             self.append(key, value)
-
-
-if __name__ == "__main__":
-    hash_table = HashTable()
-    hash_table["One"] = 5
-
-    print(hash_table["One"])
-
-    hash_table.insert('Sam', 1000)
-    print(hash_table)
-    hash_table["Two"] = 2
-    print(hash_table)
-    hash_table.insert('Two', 7)
-    print(hash_table)
-    hash_table.delete('One')
-    print(hash_table)
-    print(hash_table.lookup('Two'))
