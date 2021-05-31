@@ -1,8 +1,11 @@
 """ tests """
 
 import pytest
+
+from graph import Graph
 from hash_table import HashTable
 from linked_list import LinkedList, DoublyLinkedLists
+from stack_and_queue import Stack, Queue
 
 
 def test_hash_table():
@@ -66,3 +69,26 @@ def test_double_linked_list():
     assert max(d) == my_double_linked_list[-1]
     my_double_linked_list[0] = 1661
     assert my_double_linked_list[0] == 1661
+
+
+def test_stack():
+    stack = Stack()
+    assert len(stack) == 0
+    assert stack.pop() is None
+    stack.push(10)
+    stack.push(30)
+    stack.push(5)
+    assert (stack.pop(), stack.pop()) == (5, 30)
+    assert stack.peek() == 10
+
+
+def test_queue():
+    queue = Queue()
+    queue.enqueue(1)
+    queue.enqueue(2)
+    queue.enqueue(3)
+    queue.enqueue(4)
+    assert queue.peek() == 1
+    assert queue.dequeue() == 1
+    assert len(queue) == 3
+    assert queue.dequeue() == 2
