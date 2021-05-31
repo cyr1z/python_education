@@ -3,7 +3,7 @@ from linked_list import LinkedList, DoublyLinkedLists
 
 
 class Stack(LinkedList):
-    """ Stck class """
+    """ Stack class """
 
     def push(self, value):
         """put node to Stack"""
@@ -15,7 +15,7 @@ class Stack(LinkedList):
 
     def peek(self):
         """show fist node in Stack"""
-        return self.first.data
+        return self.first.get()
 
 
 class Queue(DoublyLinkedLists):
@@ -31,28 +31,4 @@ class Queue(DoublyLinkedLists):
 
     def peek(self):
         """show fist node in queue"""
-        return self.last
-
-
-if __name__ == "__main__":
-    stack = Stack()
-    print(stack)
-    print(stack.pop())
-    stack.push(10)
-    stack.push(30)
-    stack.push(5)
-    print(stack)
-    print(stack.pop(), stack.pop())
-    print(stack.peek(), stack)
-
-    queue = Queue()
-    queue.enqueue(1)
-    queue.enqueue(2)
-    queue.enqueue(3)
-    queue.enqueue(4)
-    print(queue)
-    print(queue.peek())
-    print(queue.dequeue())
-    print(queue)
-    print(queue.dequeue())
-    print(queue)
+        return self.last.get()

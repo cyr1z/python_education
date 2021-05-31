@@ -6,6 +6,7 @@ from graph import Graph
 from hash_table import HashTable
 from linked_list import LinkedList, DoublyLinkedLists
 from stack_and_queue import Stack, Queue
+from tree import BinaryTree
 
 
 def test_hash_table():
@@ -92,3 +93,40 @@ def test_queue():
     assert queue.dequeue() == 1
     assert len(queue) == 3
     assert queue.dequeue() == 2
+
+
+@pytest.fixture
+def graph():
+    da_graph = Graph()
+    da_graph.insert(12, None)
+    da_graph.insert(22, [12])
+    da_graph.insert(1, [12])
+    da_graph.insert(16, [22, 12])
+
+    return da_graph
+
+
+def test_graph(graph):
+    assert 16 in (_.get() for _ in graph[12].connections)
+    graph.delete(16)
+    assert 16 not in (_.get() for _ in graph[12].connections)
+
+
+@pytest.fixture
+def tree():
+    tree_two = BinaryTree()
+    nums = [45, 32, 64, 80, 21, 17, 55, 97, 33, 42, 29]
+    for i in nums:
+        tree_two.insert(i)
+    return tree_two
+
+
+def test_tree(tree):
+    d = tree.lookup(21)
+    assert d.get() == 21
+    assert d.get_right().get() == 29
+    assert d.get_left().get() == 17
+    assert tree.lookup(11111) is None
+    tree.delete(45)
+    assert tree.lookup(42).get_right().get() == 64
+    assert tree.lookup(42).get_left().get() == 32
