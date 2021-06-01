@@ -19,60 +19,33 @@ def get_user_and_robot():
     name1 = get_player_name()
     player_1 = Player(name1, X_SYMBOL)
     player_2 = Robot(O_SYMBOL)
-    return [player_1, player_2]
-
-
-def is_maximize_player(table):
-    return len(table.x_choices) > len(table.o_choices)
-
-
-def is_terminal(table) -> bool:
-    """
-    is game over?
-    :return: bool
-    """
-    return any(_ <= table.x_choices for _ in table.wins) or \
-           any(_ <= table.o_choices for _ in table.wins) or not table.variants
+    return [player_2, player_1]
 
 
 def utility(table):
+    status = None
     if any(_ <= table.x_choices for _ in table.wins):
         status = -10
     elif any(_ <= table.o_choices for _ in table.wins):
         status = 10
     elif not table.variants:
         status = 0
-    return status
+    return status, None
 
 
 def minimax(table):
-    if is_terminal(table):
-        return utility(table)
+    if table.is_terminal:
+        best = utility(table)
 
-    best_score = float('inf')
-    if is_maximize_player(table):
-        best_score *= -1
-    for item in table.variants:
-        table.move(item)
-        score = minimax(table)
-        if table.is_maximize_player and best_score < score:
-            best_score = score
-            result = item
-        elif not table.is_maximize_player and best_score > score:
-            best_score = score
-    return best_score
-
-
-def best_choice(table):
-    best_score = float('-inf')
-    for item in table.variants:
-        table = deepcopy(table)
-        table.move(item)
-        score = minimax(table)
-        if best_score < score:
-            best_score = score
-            result = item
-    return result
+    else:
+        best = (-1, None) if table.is_maximize_player else (1, None)
+        for item in table.variants:
+            inner_table = deepcopy(table)
+            inner_table.move(item)
+            value = minimax(inner_table)[0]
+            if table.is_maximize_player and value > best[0] or value < best[0]:
+                best = (value, item)
+    return best
 
 
 class Robot(Player):
@@ -88,6 +61,11 @@ class Robot(Player):
         Robot select item number.
         :param table: GameTable
         :return: int
-        """
 
-        return best_choice(table)
+        if len(table.variants) == 9:
+            result = 5
+        else:
+            result = minimax(table)[1]
+        """
+        result = minimax(table)[1]
+        return result

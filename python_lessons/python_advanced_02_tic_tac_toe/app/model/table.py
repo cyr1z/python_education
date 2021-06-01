@@ -35,10 +35,6 @@ class GameTable:
 
     @property
     def is_terminal(self):
-        """
-        is gfme over?
-        :return:
-        """
         return any(_ <= self.x_choices for _ in self.wins) or \
                any(_ <= self.o_choices for _ in self.wins) or not self.variants
 
@@ -48,6 +44,7 @@ class GameTable:
 
     @property
     def utility(self):
+        status = None
         if any(_ <= self.x_choices for _ in self.wins):
             status = -10
         elif any(_ <= self.o_choices for _ in self.wins):
@@ -91,4 +88,3 @@ class GameTable:
 
     def __str__(self):
         return TableView(**self.choices)
-
