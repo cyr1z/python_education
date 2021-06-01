@@ -37,13 +37,21 @@ def minimax(table):
     if table.is_terminal:
         best = utility(table)
 
-    else:
-        best = (-1, None) if table.is_maximize_player else (1, None)
+    elif table.is_maximize_player:
+        best = (-1, None)
         for item in table.variants:
             inner_table = deepcopy(table)
             inner_table.move(item)
             value = minimax(inner_table)[0]
-            if table.is_maximize_player and value > best[0] or value < best[0]:
+            if value > best[0]:
+                best = (value, item)
+    else:
+        best = (1, None)
+        for item in table.variants:
+            inner_table = deepcopy(table)
+            inner_table.move(item)
+            value = minimax(inner_table)[0]
+            if value < best[0]:
                 best = (value, item)
     return best
 
@@ -63,7 +71,7 @@ class Robot(Player):
         :return: int
 
         if len(table.variants) == 9:
-            result = 5
+            result = 1
         else:
             result = minimax(table)[1]
         """
