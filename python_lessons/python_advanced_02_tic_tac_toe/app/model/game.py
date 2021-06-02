@@ -24,9 +24,7 @@ class Game:
         """
         print(TableView(**self.table.choices))
         number = player.get_choice(self.table)
-        result = self.table.choice_handler(number, player)
-
-        return result
+        return self.table.choice_handler(number, player)
 
     def iteration(self) -> dict:
         """

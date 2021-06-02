@@ -80,7 +80,7 @@ def main():
         # start menu
         print(menu)
         int_choice = get_digit(menu.numbers, ASK_NUMBER)
-
+        users = []
         if not int_choice:
             break
 
@@ -89,11 +89,13 @@ def main():
 
         if int_choice == 1:
             users = get_new_users()
+            run_game(users[0], users[1], is_new_game=True)
 
         if int_choice == 3:
             users = get_user_and_robot()
+            run_game(users[0], users[1], is_new_game=True)
 
-        run_game(users[0], users[1], is_new_game=True)
+
 
         while True:
             # end menu
