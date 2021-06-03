@@ -6,14 +6,22 @@ from app.model.table import GameTable
 from settings import NUMBERS_MAP, X_SYMBOL, O_SYMBOL
 
 # game window and frames
-from app.view.gui_view import make_board, root, make_buttons
+from app.view.gui_view import make_board, root, make_buttons, get_name, \
+    get_two_names
 
 
-def play():
+def play(with_robot=False):
     """ main play """
+
+    if with_robot:
+        name1 = get_name()
+        player2 = Robot(X_SYMBOL)
+    else:
+        name1, name2 = get_two_names()
+        player2 = Player(name2, X_SYMBOL)
+    player1 = Player(name1, O_SYMBOL)
+
     table = GameTable(NUMBERS_MAP)
-    player2 = Robot(X_SYMBOL)
-    player1 = Player('Player', O_SYMBOL)
     buttons = []
     make_board(buttons, table, player1, player2)
     root.mainloop()

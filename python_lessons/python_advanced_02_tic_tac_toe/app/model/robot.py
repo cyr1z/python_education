@@ -53,6 +53,7 @@ def minimax(table):
             value = minimax(inner_table)[0]
             if value < best[0]:
                 best = (value, item)
+
     return best
 
 
@@ -75,5 +76,6 @@ class Robot(Player):
         else:
             result = minimax(table)[1]
         """
+
         result = minimax(table)[1]
         return result
