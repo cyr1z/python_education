@@ -33,3 +33,4 @@ PLAYER_ONE_CREATE = "== Player 1 =="
 PLAYER_TWO_CREATE = "== Player 2 =="
 NO_LOG_MESSAGE = 'empty log'
 ROBOT_NAME = 'Robot'
+SIZE = 80
