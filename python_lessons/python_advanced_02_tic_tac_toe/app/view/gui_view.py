@@ -81,7 +81,7 @@ def make_board(buttons, table, player1, player2):
     set_status('play game')
 
 
-def get_name():
+def get_name(ev):
     result = sd.askstring("Name", "What is your name?", parent=root)
     if result is None:
         result = 'You'
