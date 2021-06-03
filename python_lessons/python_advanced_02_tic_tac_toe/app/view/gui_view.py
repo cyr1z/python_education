@@ -24,7 +24,7 @@ def change_to_symbol(number, buttons, symbol):
     buttons[number - 1]["state"] = "disabled"
 
 
-def quit_game():
+def quit_game(ev):
     """ quit game """
     root.destroy()
 
@@ -81,7 +81,8 @@ def make_board(buttons, table, player1, player2):
     set_status('play game')
 
 
-def get_name(ev):
+def get_name():
+    """ get player name for player vs robot game. """
     result = sd.askstring("Name", "What is your name?", parent=root)
     if result is None:
         result = 'You'
@@ -89,6 +90,7 @@ def get_name(ev):
 
 
 def get_two_names():
+    """ get two names for player vs player game. """
     name1 = sd.askstring("Input", "What's Player 1 name?", parent=root)
     name2 = sd.askstring("Input", "What's Player 2 name?", parent=root)
     if name1 is None:
@@ -99,13 +101,18 @@ def get_two_names():
 
 
 def make_buttons(play):
-    # new game and quit buttons
+    """ new game and quit buttons"""
+    # new game button
     new_game_button = Button(panel_frame, text='New Game',
                              command=partial(play))
     new_game_button.place(x=5, y=10, width=90, height=30)
+
+    # new game with robot button
     new_robot_game_button = Button(panel_frame, text='New Game with robot',
                                    command=partial(play, True))
     new_robot_game_button.place(x=95, y=10, width=145, height=30)
+
+    # quit button
     quit_button = Button(panel_frame, text='Quit',
                          command=partial(quit_game, False))
     quit_button.place(x=160, y=45, width=80, height=30)

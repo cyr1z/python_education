@@ -11,7 +11,7 @@ from app.view.gui_view import make_board, root, make_buttons, get_name, \
 
 
 def play(with_robot=False):
-    """ main play """
+    """ main gui play """
 
     if with_robot:
         name1 = get_name()
