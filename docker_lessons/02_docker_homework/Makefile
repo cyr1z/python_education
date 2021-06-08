@@ -26,5 +26,5 @@ down: ## Down the containers and remove volumes
 clean:  ## Cleaning up old container images
 	docker rmi $(docker images -f "dangling=true" -q)
 
-psql: ##Run psql cli in db container
+psql: ## Run psql cli in db container
 	docker-compose exec db psql -U postgres
