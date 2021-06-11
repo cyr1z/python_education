@@ -52,7 +52,7 @@ LIMIT 10;
 
 -- 5. Вывести топ 5 юзеров, которые потратили больше всего денег (total в заказе).
 
-SELECT CONCAT(first_name, ' ', lASt_name) AS top_user,
+SELECT CONCAT(first_name, ' ', last_name) AS top_user,
        sum(orders.total)                  AS total
 FROM users
          JOIN carts
@@ -69,7 +69,7 @@ LIMIT 5;
 
 -- 6. Вывести топ 5 юзеров, которые сделали больше всего заказов (кол-во заказов).
 
-SELECT CONCAT(first_name, ' ', lASt_name),
+SELECT CONCAT(first_name, ' ', last_name),
        count(orders.order_id) AS purchase_count
 FROM users
          JOIN carts
@@ -80,7 +80,7 @@ GROUP BY user_id;
 
 -- 7. Вывести топ 5 юзеров, которые создали корзины, но так и не сделали заказы.
 
-SELECT CONCAT(first_name, ' ', lASt_name) as top_canceled_user,
+SELECT CONCAT(first_name, ' ', last_name) as top_canceled_user,
        sum(orders.total)                  AS total
 FROM users
          JOIN carts
