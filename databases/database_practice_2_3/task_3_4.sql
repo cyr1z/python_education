@@ -80,17 +80,11 @@ GROUP BY user_id;
 
 -- 7. Вывести топ 5 юзеров, которые создали корзины, но так и не сделали заказы.
 
-SELECT CONCAT(first_name, ' ', last_name) as top_canceled_user,
-       sum(orders.total)                  AS total
+SELECT users.*
 FROM users
-         JOIN carts
-              ON users.user_id = carts.users_user_id
-         JOIN orders
-              ON orders.carts_cart_id = carts.cart_id
-         JOIN order_statuses
-              ON order_statuses.order_status_id =
-                 orders.order_statuses_order_status_id
-WHERE order_statuses.order_status_id = 5
-GROUP BY user_id
-ORDER BY total DESC
-limit 5;
+WHERE user_id IN (
+    SELECT users_user_id
+    FROM carts
+    WHERE cart_id NOT IN (SELECT carts_cart_id FROM orders)
+)
+LIMIT 5;
