@@ -1,0 +1,1 @@
+UPDATE products set price = price * 2;
