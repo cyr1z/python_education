@@ -1,0 +1,40 @@
+============================= test session starts ==============================
+platform linux -- Python 3.8.5, pytest-6.2.4, py-1.10.0, pluggy-0.13.1 -- /home/beaver/.local/share/virtualenvs/nix_learn-zo3m3kRo/bin/python
+cachedir: .pytest_cache
+rootdir: /home/beaver/Projects/nix_learn/2021_05_19
+plugins: cov-2.12.0
+collecting ... collected 22 items
+
+tests/unit/test_homework.py::test_even_odd[1-odd] PASSED                 [  4%]
+tests/unit/test_homework.py::test_even_odd[10-even] PASSED               [  9%]
+tests/unit/test_homework.py::test_even_odd[-4-even] PASSED               [ 13%]
+tests/unit/test_homework.py::test_even_odd_none_arg_test PASSED          [ 18%]
+tests/unit/test_homework.py::test_sum_all[test_arg0-6] PASSED            [ 22%]
+tests/unit/test_homework.py::test_sum_all[test_arg1-12] PASSED           [ 27%]
+tests/unit/test_homework.py::test_sum_all[test_arg2--4] PASSED           [ 31%]
+tests/unit/test_homework.py::test_str_arg_test_sum_all PASSED            [ 36%]
+tests/unit/test_homework.py::test_none_arg_test_sum_all PASSED           [ 40%]
+tests/unit/test_homework.py::test_time_of_day[test_arg0-morning] PASSED  [ 45%]
+tests/unit/test_homework.py::test_time_of_day[test_arg1-night] PASSED    [ 50%]
+tests/unit/test_homework.py::test_time_of_day[test_arg2-afternoon] PASSED [ 54%]
+tests/unit/test_homework.py::test_time_of_day[test_arg3-night] PASSED    [ 59%]
+tests/unit/test_homework.py::test_product_subtract_quantity PASSED       [ 63%]
+tests/unit/test_homework.py::test_zero_quantity_product_subtract_quantity PASSED [ 68%]
+tests/unit/test_homework.py::test_much_product_subtract_quantity PASSED  [ 72%]
+tests/unit/test_homework.py::test_product_add_quantity PASSED            [ 77%]
+tests/unit/test_homework.py::test_product_change_price PASSED            [ 81%]
+tests/unit/test_homework.py::test_shop_add_product PASSED                [ 86%]
+tests/unit/test_homework.py::test_shop_get_product_index PASSED          [ 90%]
+tests/unit/test_homework.py::test_shop_sell_product PASSED               [ 95%]
+tests/unit/test_homework.py::test_shop_sell_product_zero_quantity PASSED [100%]
+
+----------- coverage: platform linux, python 3.8.5-final-0 -----------
+Name                           Stmts   Miss  Cover
+--------------------------------------------------
+software_testing/__init__.py       0      0   100%
+software_testing/to_test.py       57      0   100%
+--------------------------------------------------
+TOTAL                             57      0   100%
+
+
+============================== 22 passed in 0.17s ==============================
